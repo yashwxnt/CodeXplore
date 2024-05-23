@@ -4,7 +4,7 @@ import { Children } from "react";
 import { Card, CardContent, CardFooter, CardHeader } from "../ui/card";
 import AuthHeader from "./auth-header";
 import BackButton from "./back-button";
-import ForgotPassword from "./forgotpassword/forgotpassword";
+import ForgotPassword from "./forgotpasswordbutton";
 
 interface CardWrapperProps {
     label: string;

@@ -43,7 +43,7 @@ const LoginForm = () => {
     title="Login"
     backButtonHref="/auth/register"
     backButtonLabel="Don't have an account? Register here."
-    forgotPasswordHref="/auth/forgot-password" // Provide forgot password link
+    forgotPasswordHref="/auth/forgotpassword" // Provide forgot password link
     forgotPasswordLabel="Forgot password?" // Provide forgot password label
 >
       <Form {...form}>
