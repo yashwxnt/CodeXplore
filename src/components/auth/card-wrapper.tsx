@@ -26,7 +26,7 @@ const CardWrapper = ({
     children,
 }: CardWrapperProps) => {
     return (
-        <Card className="xl:w-1/4 md:w-1/2 shadow-md">
+        <Card className="xl:w-3/5 md:w-1/2 shadow-md bg-slate-200/20 backdrop-blur-sm border-none">
             <CardHeader>
                 <AuthHeader label={label} title={title} />
             </CardHeader>
@@ -36,7 +36,6 @@ const CardWrapper = ({
             <CardFooter>
                 <BackButton label={backButtonLabel} href={backButtonHref} />
                 <ForgotPassword label={forgotPasswordLabel} href={forgotPasswordHref} />
-               
             </CardFooter>
         </Card>
     );
@@ -44,4 +43,3 @@ const CardWrapper = ({
 
 export default CardWrapper;
 
-  

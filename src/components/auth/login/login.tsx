@@ -21,7 +21,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
 const LoginForm = () => {
-    const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const form = useForm({
     resolver: zodResolver(LoginSchema),
@@ -39,13 +39,13 @@ const LoginForm = () => {
   const { pending } = useFormStatus();
   return (
     <CardWrapper
-    label="Login to your account"
-    title="Login"
-    backButtonHref="/auth/register"
-    backButtonLabel="Don't have an account? Register here."
-    forgotPasswordHref="/auth/forgotpassword" // Provide forgot password link
-    forgotPasswordLabel="Forgot password?" // Provide forgot password label
->
+      label="Login to your account"
+      title="Login"
+      backButtonHref="/auth/register"
+      backButtonLabel="Don't have an account? Register here."
+      forgotPasswordHref="/auth/forgotpassword" // Provide forgot password link
+      forgotPasswordLabel="Forgot password?" // Provide forgot password label
+    >
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
           <div className="space-y-4">
