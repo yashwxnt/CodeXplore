@@ -26,9 +26,9 @@ const CourseFilter: React.FC<CourseFilterProps> = ({ onFilterChange }) => {
 
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5 }}>
-      <Card className="p-4 shadow-md bg-card text-card-foreground">
+      <Card className="p-4 shadow-md bg-card text-card-foreground font-inter">
         <CardHeader>
-          <h2 className="text-2xl font-bold mb-4">Filter Courses</h2>
+          <h2 className="text-2xl font-brenet-regular mb-4">Filter Courses</h2>
         </CardHeader>
         <CardContent>
           <div className="mb-4">

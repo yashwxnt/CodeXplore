@@ -69,15 +69,15 @@ const CourseEnroll: React.FC<CourseEnrollProps> = ({
             <CardTitle className="text-3xl font-bold">{title}</CardTitle>
           </CardHeader>
           {/* Card Content */}
-          <CardContent className="p-6">
+          <CardContent className="p-6" style={{ backgroundColor: 'var(--card)', color: 'var(--card-foreground)' }}>
             <img
               src={image}
               alt={title}
               className="w-full h-56 object-cover mb-6 rounded-lg shadow-lg"
             />
-            <p className="text-lg text-gray-900 mb-4">{description}</p>
-            <p className="text-md text-gray-700 mb-1"><strong>Duration:</strong> {duration}</p>
-            <p className="text-md text-gray-700"><strong>Category:</strong> {category}</p>
+            <p className="text-lg mb-4">{description}</p>
+            <p className="text-md mb-1"><strong>Duration:</strong> {duration}</p>
+            <p className="text-md"><strong>Category:</strong> {category}</p>
           </CardContent>
         </Card>
 
@@ -86,8 +86,8 @@ const CourseEnroll: React.FC<CourseEnrollProps> = ({
           <div className="bg-gradient-to-r from-blue-500 to-purple-600 text-white p-4">
             <h2 className="text-lg font-semibold">Course Syllabus</h2>
           </div>
-          <div className="p-6 bg-white">
-            <p className="text-md text-gray-700 mb-6">
+          <div className="p-6" style={{ backgroundColor: 'var(--popover)', color: 'var(--popover-foreground)' }}>
+            <p className="text-md mb-6">
               {syllabus.length} sections • {totalLectures} lectures • {totalLength} total length
             </p>
             <Accordion type="multiple" className="w-full">
@@ -102,7 +102,7 @@ const CourseEnroll: React.FC<CourseEnrollProps> = ({
                   <AccordionContent className="mt-2 p-4 bg-gray-50 rounded-lg w-full shadow-sm">
                     <ul className="list-disc list-inside">
                       {chapter.subtopics.map((subtopic, subIndex) => (
-                        <li key={subIndex} className="text-gray-800">{subtopic}</li>
+                        <li key={subIndex}>{subtopic}</li>
                       ))}
                     </ul>
                   </AccordionContent>
@@ -125,7 +125,7 @@ const CourseEnroll: React.FC<CourseEnrollProps> = ({
             <CardHeader className="bg-gradient-to-r from-blue-500 to-purple-600 text-white p-4">
               <CardTitle>Reviews and Testimonials</CardTitle>
             </CardHeader>
-            <CardContent className="p-6 bg-white">
+            <CardContent className="p-6" style={{ backgroundColor: 'var(--popover)', color: 'var(--popover-foreground)' }}>
               {reviews.map((review, index) => (
                 <div key={index} className="mb-4 p-4 bg-gray-50 rounded-lg shadow-sm flex items-start">
                   <User className="h-10 w-10 text-gray-500 mr-4" />
@@ -138,7 +138,7 @@ const CourseEnroll: React.FC<CourseEnrollProps> = ({
                         />
                       ))}
                     </div>
-                    <p className="text-gray-700">{review.comment}</p>
+                    <p>{review.comment}</p>
                   </div>
                 </div>
               ))}
@@ -152,8 +152,8 @@ const CourseEnroll: React.FC<CourseEnrollProps> = ({
             <CardHeader className="bg-gradient-to-r from-blue-500 to-purple-600 text-white p-4">
               <CardTitle>Certificates</CardTitle>
             </CardHeader>
-            <CardContent className="p-6 bg-white">
-              <p className="text-gray-900">You will receive a certificate upon completion of this course.</p>
+            <CardContent className="p-6" style={{ backgroundColor: 'var(--popover)', color: 'var(--popover-foreground)' }}>
+              <p>You will receive a certificate upon completion of this course.</p>
             </CardContent>
           </Card>
         )}
@@ -164,11 +164,11 @@ const CourseEnroll: React.FC<CourseEnrollProps> = ({
             <CardHeader className="bg-gradient-to-r from-blue-500 to-purple-600 text-white p-4">
               <CardTitle>FAQs and Support</CardTitle>
             </CardHeader>
-            <CardContent className="p-6 bg-white">
+            <CardContent className="p-6" style={{ backgroundColor: 'var(--popover)', color: 'var(--popover-foreground)' }}>
               {faqs.map((faq, index) => (
                 <div key={index} className="mb-4">
-                  <p className="font-semibold text-gray-900">{faq.question}</p>
-                  <p className="text-gray-700">{faq.answer}</p>
+                  <p className="font-semibold">{faq.question}</p>
+                  <p>{faq.answer}</p>
                 </div>
               ))}
             </CardContent>
@@ -178,15 +178,15 @@ const CourseEnroll: React.FC<CourseEnrollProps> = ({
 
       {/* Payment Card */}
       <div className="md:w-64 fixed top-20 right-4">
-        <Card className="bg-gray-100 w-full h-64 rounded-lg mb-4 shadow-lg p-4">
+        <Card className="w-full h-64 rounded-lg mb-4 shadow-lg p-4" style={{ backgroundColor: 'var(--background)', color: 'var(--foreground)' }}>
           <div className="flex justify-around mb-4">
             <div className="bg-blue-500 w-3 h-3 rounded-full"></div>
             <div className="bg-purple-500 w-3 h-3 rounded-full"></div>
             <div className="bg-pink-500 w-3 h-3 rounded-full"></div>
           </div>
           <div className="text-center">
-            <p className="text-gray-800 font-semibold">Enroll Now</p>
-            <p className="text-gray-600 mb-4">To enroll in this course, complete the payment process.</p>
+            <p className="font-semibold">Enroll Now</p>
+            <p className="mb-4">To enroll in this course, complete the payment process.</p>
             <button className="px-6 py-3 bg-blue-600 text-white rounded-md hover:bg-blue-700">
               Pay Now
             </button>

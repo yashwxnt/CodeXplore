@@ -1,5 +1,4 @@
 import type { Config } from "tailwindcss"
-
 const config = {
   darkMode: ["class"],
   content: [
@@ -53,6 +52,16 @@ const config = {
           foreground: "hsl(var(--card-foreground))",
         },
       },
+      fontFamily: {
+        inter: 'var(--font-inter)',
+        'brenet-regular': 'var(--font-brenet-regular)',
+        'brenet-extrude': 'var(--font-brenet-extrude)',
+        'brenet-outline': 'var(--font-brenet-outline)',
+        'brenet-stripes': 'var(--font-brenet-stripes)',
+        'brenet-shadow': 'var(--font-brenet-shadow)',
+        bequest: 'var(--font-bequest)',
+      },
+ 
       borderRadius: {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
