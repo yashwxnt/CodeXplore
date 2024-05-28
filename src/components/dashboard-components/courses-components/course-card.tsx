@@ -1,9 +1,10 @@
 // src/components/courses-components/course-card.tsx
 import React from 'react';
 import Link from 'next/link';
-import { Card, CardContent, CardDescription, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { motion } from 'framer-motion';
+import { motion, useAnimation } from 'framer-motion';
+import { useInView } from 'react-intersection-observer';
 
 interface CourseCardProps {
   title: string;
@@ -24,6 +25,15 @@ const CourseCard: React.FC<CourseCardProps> = ({
   ratings,
   category,
 }) => {
+  const controls = useAnimation();
+  const { ref, inView } = useInView({ threshold: 0.1 });
+
+  React.useEffect(() => {
+    if (inView) {
+      controls.start('visible');
+    }
+  }, [controls, inView]);
+
   const renderStars = (rating: number) => {
     const fullStars = Math.floor(rating);
     const halfStars = rating % 1 !== 0;
@@ -58,14 +68,29 @@ const CourseCard: React.FC<CourseCardProps> = ({
   };
 
   return (
-    <motion.div whileHover={{ scale: 1.05 }} className="transition-transform transform hover:scale-105">
+    <motion.div
+      ref={ref}
+      initial="hidden"
+      animate={controls}
+      variants={{
+        hidden: { opacity: 0, y: 50 },
+        visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
+      }}
+      className="transition-transform transform hover:scale-105"
+    >
       <Card className="w-full max-w-xs m-4 bg-card text-card-foreground rounded-lg overflow-hidden shadow-lg">
-        <img src={image} alt={title} className="w-full h-56 object-cover" />
+        <motion.img
+          src={image}
+          alt={title}
+          className="w-full h-56 object-cover"
+          whileHover={{ scale: 1.1 }}
+          transition={{ duration: 0.3 }}
+        />
         <CardContent className="p-6 flex flex-col flex-grow">
           <div className="flex-grow">
             <CardTitle className="text-xl font-bequest mb-2">{title}</CardTitle>
             <div className="flex justify-between items-center mb-4">
-              <p className="text-sm  text-muted-foreground">{duration}</p>
+              <p className="text-sm text-muted-foreground">{duration}</p>
               <div className="flex items-center space-x-1">
                 {renderStars(ratings)}
               </div>
@@ -73,9 +98,15 @@ const CourseCard: React.FC<CourseCardProps> = ({
             <p className="text-sm font-brenet-regular transition-colors text-muted-foreground mb-4">{category}</p>
           </div>
           <Link href={`/dashboard/courses/course-enroll/${courseId}`} passHref>
-            <Button className="text-lg font-semibold font-bequest text-primary-foreground bg-primary py-2 px-4 rounded hover:bg-primary-dark transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary self-stretch mt-auto">
-              View Course
-            </Button>
+            <motion.div
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="mt-auto"
+            >
+              <Button className="text-lg font-semibold font-bequest text-primary-foreground bg-primary py-2 px-4 rounded hover:bg-primary-dark transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary self-stretch">
+                View Course
+              </Button>
+            </motion.div>
           </Link>
         </CardContent>
       </Card>
