@@ -1,4 +1,4 @@
-import { Jacquard_12_Charted} from 'next/font/google'
+import { Inter} from 'next/font/google'
 import { Metadata } from 'next';
 import { ThemeProvider } from '@/components/themeprovider';
 import Header from '@/components/dashboard-components/header';
@@ -6,7 +6,7 @@ import PageWrapper from '@/components/dashboard-components/pagewrapper';
 import { SideBar } from '@/components/dashboard-components/sidebar';
 import localFont from '@next/font/local';
 import '../globals.css';
-const inter = Jacquard_12_Charted({
+const inter = Inter({
   weight: ["400"],
   subsets: ['latin'],
   variable: '--font-inter'

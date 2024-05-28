@@ -1,10 +1,11 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import CourseCard from './course-card';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@radix-ui/react-tabs';
 import { BookOpenIcon, CodeIcon, DatabaseIcon, SearchIcon } from 'lucide-react';
 import CourseFilter from './course-filter';
-import { courses } from '@/app/dashboard/courses/course-constants';
+import { courses as staticCourses } from '@/app/dashboard/courses/course-constants';
 import {
   Pagination,
   PaginationContent,
@@ -16,6 +17,8 @@ import {
 } from '@/components/ui/pagination';
 import { motion } from 'framer-motion';
 
+axios.defaults.withCredentials = true;
+
 const categories = [
   { label: 'All', icon: null },
   { label: 'Web Development', icon: <BookOpenIcon className="w-6 h-6 mr-2" /> },
@@ -25,7 +28,6 @@ const categories = [
 
 const CourseCardWrapper: React.FC<{ className: string; children: React.ReactNode }> = ({ children, className }) => {
   return <motion.div className={className} whileHover={{ scale: 1.05 }}>{children}</motion.div>;
-  
 };
 
 const CourseList = () => {
@@ -33,18 +35,34 @@ const CourseList = () => {
   const [filters, setFilters] = useState<{ rating: number; duration: string; tags: string[] }>({ rating: 0, duration: '', tags: [] });
   const [searchTerm, setSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
+  const [courses, setCourses] = useState(staticCourses);
   const coursesPerPage = 8;
 
+  useEffect(() => {
+    const fetchCourses = async () => {
+      try {
+        const response = await axios.get('http://localhost:4500/courses/getCourses');
+        setCourses(response.data);
+        console.log("fetched courses: ", response.data);
+      } catch (error) {
+        console.error('Failed to fetch courses from backend, using static data.', error);
+        setCourses(staticCourses);
+      }
+    };
+
+    fetchCourses();
+  }, []);
+
   const filteredCourses = courses.filter(course => {
-    const matchesCategory = selectedCategory === 'All' || course.category === selectedCategory;
-    const matchesRating = course.ratings >= filters.rating;
-    const courseDuration = parseInt(course.duration);
+    const matchesCategory = selectedCategory === 'All' || course.courseCategory === selectedCategory;
+    const matchesRating = course.courseRating >= filters.rating;
+    const courseDuration = parseInt(course.courseDuration);
     const matchesDuration =
       !filters.duration ||
       (filters.duration === 'short' && courseDuration < 5) ||
       (filters.duration === 'medium' && courseDuration >= 5 && courseDuration <= 20) ||
       (filters.duration === 'long' && courseDuration > 20);
-    const matchesTags = filters.tags.length === 0 || filters.tags.some(tag => course.tags?.includes(tag));
+    const matchesTags = filters.tags.length === 0 || filters.tags.some(tag => course.courseTags?.includes(tag));
 
     return matchesCategory && matchesRating && matchesDuration && matchesTags;
   });
@@ -74,7 +92,7 @@ const CourseList = () => {
     <motion.div className="relative w-full sm:w-1/2" initial={{ y: -20 }} animate={{ y: 0 }} transition={{ duration: 0.5 }}>
       <input
         type="text"
-        className="w-full border border-input rounded-full px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary font-inter"
+        className="w-full border border-input  rounded-full px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary font-inter"
         placeholder="Search for courses..."
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
@@ -88,7 +106,7 @@ const CourseList = () => {
         <TabsTrigger
           key={label}
           value={label}
-          className={`flex items-center px-5 py-2 mx-1 rounded-full transition font-inter ${
+          className={`flex items-center px-5 py-2 mx-1 font-brenet-regular rounded-full transition  ${
             selectedCategory === label
               ? 'bg-primary text-primary-foreground shadow-md'
               : 'bg-card text-card-foreground border border-border shadow-sm'
@@ -111,13 +129,13 @@ const CourseList = () => {
               {currentCourses.map((course, index) => (
                 <CourseCardWrapper key={index} className="transition  transform hover:scale-105">
                   <CourseCard
-                    title={course.title}
-                    description={course.description}
-                    image={course.image}
-                    courseId={course.courseId}
-                    duration={course.duration}
-                    ratings={course.ratings}
-                    category={course.category}
+                   title={course.courseName}
+                   description={course.description}
+                   image={course.courseImage}
+                   courseId={course.courseId}
+                   duration={course.courseDuration}
+                   ratings={course.courseRating}
+                   category={course.courseCategory}
                   />
                 </CourseCardWrapper>
               ))}

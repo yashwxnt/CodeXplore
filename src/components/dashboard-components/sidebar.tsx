@@ -27,7 +27,7 @@ export const SideBar = () => {
                     { hidden: toggleCollapse })}>
                     CodeXplore</h3>
             </div>
-            <nav className="flex flex-col gap-2 transition duration-300 ease-in-out">
+            <nav className="flex flex-col gap-2 transition font-bequest duration-300 ease-in-out">
                 <div className="flex flex-col gap-2 px-4">
                     {SIDENAV_ITEMS.map((item, idx) => {
                         return <SideBarMenuGroup key={idx} menuGroup={item} />;

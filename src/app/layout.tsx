@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
-import { Jacquard_24 } from "next/font/google";
+import { Inter} from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/ui/themeprovider";
 
-const inter = Jacquard_24({
+const inter = Inter({
   weight: ["400"],
   subsets: ['latin'],
   variable: '--font-inter'

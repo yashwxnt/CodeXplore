@@ -6,14 +6,15 @@ import { RecentSales } from './recent-sales'
 
 export default function Home() {
   return (
+    //<Protected>
     <>
-       <h2 className="text-3xl font-bold tracking-tight my-4">Dashboard</h2>
+       <h2 className="text-3xl font-brenet-regular tracking-tight my-4">Dashboard</h2>
 
       <div className="flex-1 space-y-4">
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm  font-medium">
+              <CardTitle className="text-sm font-bequest font-medium">
                 Total Coins
               </CardTitle>
               <svg
@@ -26,7 +27,7 @@ export default function Home() {
                 strokeWidth="2"
                 className="h-4 w-4 text-muted-foreground"
               >
-                <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
+                <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a 3.5 3.5 0 0 1 0 7H6" />
               </svg>
             </CardHeader>
             <CardContent>
@@ -39,7 +40,7 @@ export default function Home() {
 
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">
+              <CardTitle className="text-sm font-bequest font-medium">
                 Badges
               </CardTitle>
               <svg
@@ -66,7 +67,7 @@ export default function Home() {
           </Card>
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Exams</CardTitle>
+              <CardTitle className="text-sm font-bequest font-medium">Exams</CardTitle>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
@@ -90,7 +91,7 @@ export default function Home() {
           </Card>
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">
+              <CardTitle className="text-sm font-bequest font-medium">
                 Interviews
               </CardTitle>
               <svg
@@ -115,27 +116,28 @@ export default function Home() {
           </Card>
         </div>
         <div className="grid gap-4 sm:grid-cols-1 lg:grid-cols-7">
-          <Card className="lg:col-span-4">
+          <Card className="lg:col-span-4 font-brenet-regular">
             <CardHeader>
-              <CardTitle>Overview</CardTitle>
+              <CardTitle className='font-bequest'>Overview</CardTitle>
             </CardHeader>
             <CardContent className="pl-2">
               <Overview />
             </CardContent>
           </Card>
-          <Card className="lg:col-span-3">
+          <Card className="lg:col-span-3 ">
             <CardHeader>
-              <CardTitle>Recent Quizzes</CardTitle>
+              <CardTitle className='font-bequest'>Recent Quizzes</CardTitle>
               <CardDescription>
                 You made 265 sales this month.
               </CardDescription>
             </CardHeader>
-            <CardContent>
-              <RecentSales />
+            <CardContent >
+              <RecentSales  />
             </CardContent>
           </Card>
         </div>
       </div>
     </>
+    //</ProtedtedRoute>
   )
 }

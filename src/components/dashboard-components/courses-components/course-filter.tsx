@@ -32,11 +32,11 @@ const CourseFilter: React.FC<CourseFilterProps> = ({ onFilterChange }) => {
         </CardHeader>
         <CardContent>
           <div className="mb-4">
-            <label className="block text-muted-foreground">Rating</label>
+            <label className="block font-bequest text-muted-foreground">Rating</label>
             <select
               value={rating}
               onChange={e => setRating(Number(e.target.value))}
-              className="mt-1 block w-full p-2 border rounded-md bg-background text-foreground"
+              className="mt-1 block font-inter w-full p-2 border rounded-md bg-background text-foreground"
             >
               <option value={0}>All Ratings</option>
               <option value={1}>1 Star & Up</option>
@@ -48,7 +48,7 @@ const CourseFilter: React.FC<CourseFilterProps> = ({ onFilterChange }) => {
           </div>
 
           <div className="mb-4">
-            <label className="block text-muted-foreground">Duration</label>
+            <label className="block font-bequest text-muted-foreground">Duration</label>
             <select
               value={duration}
               onChange={e => setDuration(e.target.value)}
@@ -62,7 +62,7 @@ const CourseFilter: React.FC<CourseFilterProps> = ({ onFilterChange }) => {
           </div>
 
           <div className="mb-4">
-            <label className="block text-muted-foreground">Tags</label>
+            <label className="block font-bequest text-muted-foreground">Tags</label>
             <div className="flex flex-col mt-1">
               {['Java', 'Python', 'JavaScript', 'React', 'Node.js'].map(tag => (
                 <label key={tag} className="inline-flex items-center mb-2">
@@ -79,7 +79,7 @@ const CourseFilter: React.FC<CourseFilterProps> = ({ onFilterChange }) => {
 
           <button
             onClick={handleApplyFilters}
-            className="mt-4 px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary-dark w-full"
+            className="mt-4 px-4 py-2 font-bequest bg-primary text-primary-foreground rounded-md hover:bg-primary-dark w-full"
           >
             Apply Filters
           </button>

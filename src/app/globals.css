@@ -415,7 +415,7 @@
 @font-face {
   font-family: 'Bequest';
   src: url('../../fonts/bequest/Bequest-Personal.otf') format('opentype');
-  font-weight: 1200; /* Bold */
+  font-weight: 700; /* Bold */
   font-style: normal;
 }
 
