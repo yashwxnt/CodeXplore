@@ -63,17 +63,17 @@ const CourseCard: React.FC<CourseCardProps> = ({
         <img src={image} alt={title} className="w-full h-56 object-cover" />
         <CardContent className="p-6 flex flex-col flex-grow">
           <div className="flex-grow">
-            <CardTitle className="text-2xl font-bold mb-2">{title}</CardTitle>
+            <CardTitle className="text-xl font-bequest mb-2">{title}</CardTitle>
             <div className="flex justify-between items-center mb-4">
-              <p className="text-sm text-muted-foreground">{duration}</p>
+              <p className="text-sm  text-muted-foreground">{duration}</p>
               <div className="flex items-center space-x-1">
                 {renderStars(ratings)}
               </div>
             </div>
-            <p className="text-sm text-muted-foreground mb-4">{category}</p>
+            <p className="text-sm font-brenet-regular transition-colors text-muted-foreground mb-4">{category}</p>
           </div>
           <Link href={`/dashboard/courses/course-enroll/${courseId}`} passHref>
-            <Button className="text-lg font-semibold text-primary-foreground bg-primary py-2 px-4 rounded hover:bg-primary-dark transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary self-stretch mt-auto">
+            <Button className="text-lg font-semibold font-bequest text-primary-foreground bg-primary py-2 px-4 rounded hover:bg-primary-dark transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary self-stretch mt-auto">
               View Course
             </Button>
           </Link>

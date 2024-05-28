@@ -1,16 +1,21 @@
-import { Karla } from 'next/font/google'
+import { Inter} from 'next/font/google'
 import { Metadata } from 'next';
 import { ThemeProvider } from '@/components/themeprovider';
 import Header from '@/components/dashboard-components/header';
 import PageWrapper from '@/components/dashboard-components/pagewrapper';
 import { SideBar } from '@/components/dashboard-components/sidebar';
-
-
-const karla = Karla({
-  weight: ["200", "300", "400", "500", "600", "700", "800"],
+import localFont from '@next/font/local';
+import '../globals.css';
+const inter = Inter({
+  weight: ["400"],
   subsets: ['latin'],
-  variable: "--font-karla"
-})
+  variable: '--font-inter'
+});
+
+
+const brenetRegular = localFont({src: "../../../fonts/brenet/Brenat Regular.otf",weight:"400",variable: '--font-brenet-regular'})
+const brenetShadow = localFont({src: "../../../fonts/bequest/Bequest-Personal.otf",weight:"700", variable: '--font-brenet-shadow'})
+
 export const metadata: Metadata = {
   title: "Dashboard",
 };
@@ -22,7 +27,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={karla.className + ' h-screen overflow-hidden'}>
+      <body className={`${inter.className}`}>
         <ThemeProvider
           themes={['dark', 'custom', 'light']}
           attribute="class"
