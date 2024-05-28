@@ -28,8 +28,6 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body className={karla.className + ' h-screen overflow-hidden'}>
         <ThemeProvider
           themes={['dark', 'custom', 'light']}
           attribute="class"
@@ -37,12 +35,9 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <>
-            <SideBar />
-            <div className="flex flex-col h-full w-full">
-              <Header />
-             
+            <div className="flex flex-col h-full w-full">             
               <PageWrapper> 
-                <div className="px-4 py-2">
+                <div className="w-full px-4 py-2">
                   <BreadcrumbNav courseId="course-id-placeholder" />
                 </div>
                 {children}
@@ -50,8 +45,6 @@ export default function RootLayout({
             </div>
           </>
         </ThemeProvider>
-      </body>
-    </html>
   );
 }
 
@@ -69,7 +62,6 @@ function BreadcrumbNav({ courseId }: { courseId: string }) {
         </BreadcrumbItem>
         <BreadcrumbItem>
           <BreadcrumbLink href={`/dashboard/courses/course-enroll/${courseId}`}>Course Enroll</BreadcrumbLink>
-          <BreadcrumbSeparator />
         </BreadcrumbItem>
       </BreadcrumbList>
     </Breadcrumb>

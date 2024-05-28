@@ -14,73 +14,80 @@ import {
 import { ChevronDown, Star, User } from 'lucide-react';
 
 interface CourseEnrollProps {
-  title: string;
-  description: string;
-  image: string;
-  duration: string;
-  category: string;
-  syllabus?: { title: string; lectures: number; time: string; subtopics: string[] }[];
-  format?: string;
-  reviews?: { rating: number; comment: string }[];
-  certificates?: boolean;
-  faqs?: { question: string; answer: string }[];
-  media?: string[];
+  course: {
+    courseName: string;
+    description: string;
+    courseImage: string;
+    courseDuration: string;
+    courseCategory: string;
+    difficulty: string;
+    chapters: { chapterName: string; content: string; topics: { topicName: string; topicType: string; topicContent: string[] }[] }[];
+    format: string;
+    courseReviews: { rating: number; comment: string }[];
+    certificates: boolean;
+    faqs: { question: string; answer: string }[];
+    media: string[];
+  };
 }
 
-const CourseEnroll: React.FC<CourseEnrollProps> = ({
-  title,
-  description,
-  image,
-  duration,
-  category,
-  syllabus = [],
-  format = '',
-  reviews = [],
-  certificates = false,
-  faqs = [],
-  media = [],
-}) => {
-  const totalLectures = syllabus.reduce((acc, chapter) => acc + chapter.lectures, 0);
-  const totalMinutes = syllabus.reduce((acc, chapter) => {
-    const timeParts = chapter.time.split(' ');
+const CourseEnroll: React.FC<CourseEnrollProps> = ({ course }) => {
+  const {
+    courseName,
+    description,
+    courseImage,
+    courseDuration,
+    courseCategory,
+    difficulty,
+    chapters = [],
+    format = '',
+    courseReviews = [],
+    certificates = false,
+    faqs = [],
+    media = [],
+  } = course;
+
+  const totalLectures = chapters.reduce((acc, chapter) => acc + chapter.topics.length, 0);
+  const totalMinutes = chapters.reduce((acc, chapter) => {
+    const timeParts = chapter.topics.map(topic => topic.topicName.split(' '));
     let total = 0;
-    for (let i = 0; i < timeParts.length; i += 2) {
-      const value = parseInt(timeParts[i], 10);
-      const unit = timeParts[i + 1];
+    timeParts.forEach(part => {
+      const value = parseInt(part[0], 10);
+      const unit = part[1];
       if (unit.includes('hr')) {
         total += value * 60;
       } else if (unit.includes('min')) {
         total += value;
       }
-    }
+    });
     return acc + total;
   }, 0);
   const totalHours = Math.floor(totalMinutes / 60);
   const remainingMinutes = totalMinutes % 60;
-  const totalLength = `${totalHours}h ${remainingMinutes}min`;
+  const totalLength = ` ${totalHours}h ${remainingMinutes}min`;
 
   return (
-    <div className="container mx-auto px-4 py-12 flex flex-col md:flex-row relative">
-      {/* Existing Course Card */}
-      <div className="flex-1 md:mr-4">
-        <Card className="mb-8 shadow-lg rounded-lg overflow-hidden">
-          {/* Card Header */}
-          <CardHeader className="text-center bg-gradient-to-r from-blue-500 to-purple-600 text-white p-6">
-            <CardTitle className="text-3xl font-bold">{title}</CardTitle>
-          </CardHeader>
-          {/* Card Content */}
-          <CardContent className="p-6">
-            <img
-              src={image}
-              alt={title}
-              className="w-full h-56 object-cover mb-6 rounded-lg shadow-lg"
-            />
-            <p className="text-lg text-gray-900 mb-4">{description}</p>
-            <p className="text-md text-gray-700 mb-1"><strong>Duration:</strong> {duration}</p>
-            <p className="text-md text-gray-700"><strong>Category:</strong> {category}</p>
-          </CardContent>
-        </Card>
-
+    <div className=" w-full mx-auto px-4 py-12 flex flex-col md:flex-row relative">
+    {/* Course Details */}
+    <div className="flex-1 md:mr-4">
+      <Card className="mb-8 shadow-lg rounded-lg overflow-hidden">
+        {/* Card Header */}
+        <CardHeader className="text-center bg-gradient-to-r from-blue-500 to-purple-600 text-white p-6">
+          <CardTitle className="text-3xl font-bold">{courseName}</CardTitle>
+        </CardHeader>
+        {/* Card Content */}
+        <CardContent className="p-6">
+          <img
+            src={courseImage}
+            alt={courseName}
+            className="w-full h-56 object-cover mb-6 rounded-lg shadow-lg"
+          />
+          <p className="text-lg text-gray-900 mb-4">{description}</p>
+          <p className="text-md text-gray-700 mb-1"><strong>Duration:</strong> {courseDuration}</p>
+          <p className="text-md text-gray-700"><strong>Category:</strong> {courseCategory}</p>
+          <p className="text-md text-gray-700"><strong>Difficulty:</strong> {difficulty}</p>
+          <p className="text-md text-gray-700"><strong>Format:</strong> {format}</p>
+        </CardContent>
+      </Card>
         {/* Course Syllabus */}
         <div className="mb-8 shadow-lg rounded-lg overflow-hidden">
           <div className="bg-gradient-to-r from-blue-500 to-purple-600 text-white p-4">
@@ -88,28 +95,28 @@ const CourseEnroll: React.FC<CourseEnrollProps> = ({
           </div>
           <div className="p-6 bg-white">
             <p className="text-md text-gray-700 mb-6">
-              {syllabus.length} sections • {totalLectures} lectures • {totalLength} total length
+              {chapters.length} sections • {totalLectures} lectures • {totalLength} total length
             </p>
             <Accordion type="multiple" className="w-full">
-              {syllabus.map((chapter, index) => (
+              {chapters.map((chapter, index) => (
                 <AccordionItem key={index} value={`item-${index}`} className="mb-4 last:border-b-0 w-full">
                   <AccordionTrigger className="flex justify-between items-center p-4 rounded-lg cursor-pointer bg-gray-100 hover:bg-gray-200 transition-colors w-full shadow-sm">
-                    <span className="font-semibold">{chapter.title}</span>
+                    <span className="font-semibold">{chapter.chapterName}</span>
                     <div className="flex items-center space-x-2">
-                      <span className="text-gray-600">{chapter.lectures} lectures • {chapter.time}</span>
+                      <span className="text-gray-600">{chapter.topics.length} lectures</span>
                     </div>
                   </AccordionTrigger>
                   <AccordionContent className="mt-2 p-4 bg-gray-50 rounded-lg w-full shadow-sm">
                     <ul className="list-disc list-inside">
-                      {chapter.subtopics.map((subtopic, subIndex) => (
-                        <li key={subIndex} className="text-gray-800">{subtopic}</li>
+                      {chapter.topics.map((topic, subIndex) => (
+                        <li key={subIndex} className="text-gray-800">{topic.topicName}</li>
                       ))}
                     </ul>
                   </AccordionContent>
                 </AccordionItem>
               ))}
             </Accordion>
-            {syllabus.length > 10 && (
+            {chapters.length > 10 && (
               <div className="text-center">
                 <button className="mt-4 px-6 py-3 bg-blue-600 text-white rounded-md hover:bg-blue-700">
                   Show More Sections
@@ -120,13 +127,13 @@ const CourseEnroll: React.FC<CourseEnrollProps> = ({
         </div>
 
         {/* Reviews and Testimonials */}
-        {reviews.length > 0 && (
+        {courseReviews.length > 0 && (
           <Card className="mb-8 shadow-lg rounded-lg overflow-hidden">
             <CardHeader className="bg-gradient-to-r from-blue-500 to-purple-600 text-white p-4">
               <CardTitle>Reviews and Testimonials</CardTitle>
             </CardHeader>
             <CardContent className="p-6 bg-white">
-              {reviews.map((review, index) => (
+              {courseReviews.map((review, index) => (
                 <div key={index} className="mb-4 p-4 bg-gray-50 rounded-lg shadow-sm flex items-start">
                   <User className="h-10 w-10 text-gray-500 mr-4" />
                   <div>
@@ -167,30 +174,48 @@ const CourseEnroll: React.FC<CourseEnrollProps> = ({
             <CardContent className="p-6 bg-white">
               {faqs.map((faq, index) => (
                 <div key={index} className="mb-4">
-                  <p className="font-semibold text-gray-900">{faq.question}</p>
+                  <h3 className="font-semibold text-gray-900">{faq.question}</h3>
                   <p className="text-gray-700">{faq.answer}</p>
                 </div>
               ))}
             </CardContent>
           </Card>
         )}
+
+        {/* Media Gallery */}
+        {media.length > 0 && (
+          <Card className="mb-8 shadow-lg rounded-lg overflow-hidden">
+            <CardHeader className="bg-gradient-to-r from-blue-500 to-purple-600 text-white p-4">
+              <CardTitle>Media Gallery</CardTitle>
+            </CardHeader>
+            <CardContent className="p-6 bg-white">
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                {media.map((src, index) => (
+                  <img
+                    key={index}
+                    src={src}
+                    alt={`Course media ${index + 1}`}
+                    className="w-full h-40 object-cover rounded-lg shadow-sm"
+                  />
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        )}
       </div>
 
       {/* Payment Card */}
-      <div className="md:w-64 fixed top-20 right-4">
-        <Card className="bg-gray-100 w-full h-64 rounded-lg mb-4 shadow-lg p-4">
-          <div className="flex justify-around mb-4">
-            <div className="bg-blue-500 w-3 h-3 rounded-full"></div>
-            <div className="bg-purple-500 w-3 h-3 rounded-full"></div>
-            <div className="bg-pink-500 w-3 h-3 rounded-full"></div>
-          </div>
-          <div className="text-center">
-            <p className="text-gray-800 font-semibold">Enroll Now</p>
-            <p className="text-gray-600 mb-4">To enroll in this course, complete the payment process.</p>
-            <button className="px-6 py-3 bg-blue-600 text-white rounded-md hover:bg-blue-700">
-              Pay Now
+      <div className="sticky top-20 flex-shrink-0 w-full md:w-1/4 lg:w-1/5">
+        <Card className="mb-8 shadow-lg rounded-lg overflow-hidden">
+          <CardHeader className="bg-gradient-to-r from-blue-500 to-purple-600 text-white p-4">
+            <CardTitle>Payment</CardTitle>
+          </CardHeader>
+          <CardContent className="p-6 bg-white">
+            <p className="text-lg text-gray-900 mb-4">Enroll in this course for $99.99</p>
+            <button className="w-full px-6 py-3 bg-blue-600 text-white rounded-md hover:bg-blue-700">
+              Enroll Now
             </button>
-          </div>
+          </CardContent>
         </Card>
       </div>
     </div>

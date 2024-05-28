@@ -19,6 +19,8 @@ import { useState } from "react";
 import CardWrapper from "../card-wrapper";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import axios from "axios";
+import useAuth from "@/hooks/useAuth";
 
 const LoginForm = () => {
   const [loading, setLoading] = useState(false);
@@ -31,9 +33,34 @@ const LoginForm = () => {
     },
   });
 
-  const onSubmit = (data: z.infer<typeof LoginSchema>) => {
+  // const { login } = useAuth();
+  const onSubmit = async (data: z.infer<typeof LoginSchema>) => {
     setLoading(true);
-    console.log(data);
+    try {
+      const response = await axios.post(
+        'http://localhost:4500/developer/login',
+        {
+            username: data.email,
+            password: data.password,
+        },
+        {
+            withCredentials: true,
+        }
+      );
+      if (response.data.username) {
+        // login(response.data.username); // Update token in useAuth
+        // Redirect to the dashboard
+        window.location.href = '/dashboard';
+        console.log(response.data);
+      } else {
+        // Display error message
+        alert(response.data.error);
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const { pending } = useFormStatus();
@@ -73,7 +100,7 @@ const LoginForm = () => {
                 <FormItem>
                   <FormLabel>Password</FormLabel>
                   <FormControl>
-                    <Input {...field} type="password" placeholder="******" />
+                    <Input {...field} type="password" placeholder="" />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
