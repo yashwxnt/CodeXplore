@@ -63,32 +63,31 @@ const CourseEnroll: React.FC<CourseEnrollProps> = ({ course }) => {
   }, 0);
   const totalHours = Math.floor(totalMinutes / 60);
   const remainingMinutes = totalMinutes % 60;
-  const totalLength =` ${totalHours}h ${remainingMinutes}min`;
+  const totalLength = ` ${totalHours}h ${remainingMinutes}min`;
 
   return (
-    <div className="container mx-auto px-4 py-12 flex flex-col md:flex-row relative">
-      {/* Existing Course Card */}
-      <div className="flex-1 md:mr-4">
-        <Card className="mb-8 shadow-lg rounded-lg overflow-hidden">
-          {/* Card Header */}
-          <CardHeader className="text-center bg-gradient-to-r from-blue-500 to-purple-600 text-white p-6">
-            <CardTitle className="text-3xl font-bold">{courseName}</CardTitle>
-          </CardHeader>
-          {/* Card Content */}
-          <CardContent className="p-6">
-            <img
-              src={courseImage}
-              alt={courseName}
-              className="w-full h-56 object-cover mb-6 rounded-lg shadow-lg"
-            />
-            <p className="text-lg text-gray-900 mb-4">{description}</p>
-            <p className="text-md text-gray-700 mb-1"><strong>Duration:</strong> {courseDuration}</p>
-            <p className="text-md text-gray-700"><strong>Category:</strong> {courseCategory}</p>
-            <p className="text-md text-gray-700"><strong>Difficulty:</strong> {difficulty}</p>
-            <p className="text-md text-gray-700"><strong>Format:</strong> {format}</p>
-          </CardContent>
-        </Card>
-
+    <div className=" w-full mx-auto px-4 py-12 flex flex-col md:flex-row relative">
+    {/* Course Details */}
+    <div className="flex-1 md:mr-4">
+      <Card className="mb-8 shadow-lg rounded-lg overflow-hidden">
+        {/* Card Header */}
+        <CardHeader className="text-center bg-gradient-to-r from-blue-500 to-purple-600 text-white p-6">
+          <CardTitle className="text-3xl font-bold">{courseName}</CardTitle>
+        </CardHeader>
+        {/* Card Content */}
+        <CardContent className="p-6">
+          <img
+            src={courseImage}
+            alt={courseName}
+            className="w-full h-56 object-cover mb-6 rounded-lg shadow-lg"
+          />
+          <p className="text-lg text-gray-900 mb-4">{description}</p>
+          <p className="text-md text-gray-700 mb-1"><strong>Duration:</strong> {courseDuration}</p>
+          <p className="text-md text-gray-700"><strong>Category:</strong> {courseCategory}</p>
+          <p className="text-md text-gray-700"><strong>Difficulty:</strong> {difficulty}</p>
+          <p className="text-md text-gray-700"><strong>Format:</strong> {format}</p>
+        </CardContent>
+      </Card>
         {/* Course Syllabus */}
         <div className="mb-8 shadow-lg rounded-lg overflow-hidden">
           <div className="bg-gradient-to-r from-blue-500 to-purple-600 text-white p-4">
@@ -203,6 +202,21 @@ const CourseEnroll: React.FC<CourseEnrollProps> = ({ course }) => {
             </CardContent>
           </Card>
         )}
+      </div>
+
+      {/* Payment Card */}
+      <div className="sticky top-20 flex-shrink-0 w-full md:w-1/4 lg:w-1/5">
+        <Card className="mb-8 shadow-lg rounded-lg overflow-hidden">
+          <CardHeader className="bg-gradient-to-r from-blue-500 to-purple-600 text-white p-4">
+            <CardTitle>Payment</CardTitle>
+          </CardHeader>
+          <CardContent className="p-6 bg-white">
+            <p className="text-lg text-gray-900 mb-4">Enroll in this course for $99.99</p>
+            <button className="w-full px-6 py-3 bg-blue-600 text-white rounded-md hover:bg-blue-700">
+              Enroll Now
+            </button>
+          </CardContent>
+        </Card>
       </div>
     </div>
   );

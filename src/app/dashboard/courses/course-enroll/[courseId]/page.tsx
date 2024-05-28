@@ -4,11 +4,13 @@ import { useParams } from 'next/navigation';
 import axios from 'axios';
 import { courses as staticCourse } from '../../course-constants';
 import CourseEnroll from '@/components/dashboard-components/courses-components/course-enroll/course-enroll';
+import { courses as staticCourses } from '@/app/dashboard/courses/course-constants';
+
 
 const CourseEnrollPage = () => {
   const params = useParams();
   const courseId = params.courseId;
-  const [course, setCourse] = useState<any>(staticCourse[1]);
+  const [course, setCourse] = useState<any>(staticCourses[1]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
