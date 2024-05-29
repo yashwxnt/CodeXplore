@@ -1,4 +1,4 @@
-import { Inter} from 'next/font/google'
+import { Inter } from 'next/font/google'
 import { Metadata } from 'next';
 import { ThemeProvider } from '@/components/themeprovider';
 import Header from '@/components/dashboard-components/header';
@@ -13,8 +13,8 @@ const inter = Inter({
 });
 
 
-const brenetRegular = localFont({src: "../../../fonts/brenet/Brenat Regular.otf",weight:"400",variable: '--font-brenet-regular'})
-const brenetShadow = localFont({src: "../../../fonts/bequest/Bequest-Personal.otf",weight:"700", variable: '--font-brenet-shadow'})
+const brenetRegular = localFont({ src: "../../../fonts/brenet/Brenat Regular.otf", weight: "400", variable: '--font-brenet-regular' })
+const brenetShadow = localFont({ src: "../../../fonts/bequest/Bequest-Personal.otf", weight: "700", variable: '--font-brenet-shadow' })
 
 export const metadata: Metadata = {
   title: "Dashboard",

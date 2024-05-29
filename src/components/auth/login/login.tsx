@@ -40,11 +40,11 @@ const LoginForm = () => {
       const response = await axios.post(
         'http://localhost:4500/developer/login',
         {
-            username: data.email,
-            password: data.password,
+          username: data.email,
+          password: data.password,
         },
         {
-            withCredentials: true,
+          withCredentials: true,
         }
       );
       if (response.data.username) {
