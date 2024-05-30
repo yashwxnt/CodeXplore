@@ -6,6 +6,7 @@ import PageWrapper from '@/components/dashboard-components/pagewrapper';
 import { SideBar } from '@/components/dashboard-components/sidebar';
 import localFont from '@next/font/local';
 import '../globals.css';
+import { ToastProvider } from '@/components/ui/toast';
 const inter = Inter({
   weight: ["400"],
   subsets: ['latin'],
@@ -38,7 +39,9 @@ export default function RootLayout({
             <SideBar />
             <div className="flex flex-col h-full w-full">
               <Header />
+              <ToastProvider>
               <PageWrapper children={children} />
+              </ToastProvider>
             </div>
           </>
         </ThemeProvider>
