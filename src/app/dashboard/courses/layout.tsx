@@ -35,13 +35,12 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <>
-            <div className="flex flex-col h-full w-full">             
-              <PageWrapper> 
+            <div className="flex flex-col h-full w-full">              
                 <div className="w-full px-4 py-2">
                   <BreadcrumbNav courseId="course-id-placeholder" />
                 </div>
                 {children}
-              </PageWrapper>
+            
             </div>
           </>
         </ThemeProvider>
