@@ -77,9 +77,9 @@ const RegisterForm = () => {
     <CardWrapper
       label={`Create an account as ${role}`}
       title="Register"
-      backButtonHref="/auth/login"
+      backButtonHref={`/auth/login?role=${role}`}
       backButtonLabel="Already have an account? Login here."
-      forgotPasswordHref="/auth/forgotpassword"
+      forgotPasswordHref={`/auth/forgotpassword?role=${role}`}
       forgotPasswordLabel="Forgot password?"
     >
       <Form {...form}>
