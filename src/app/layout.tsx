@@ -22,15 +22,14 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
     <head />
     <body className={inter.className + ' h-screen overflow-hidden'}>
-      <ThemeProvider
+      {/* <ThemeProvider
         attribute="class"
         defaultTheme="system"
         enableSystem
         disableTransitionOnChange
-      >
-        {children}
-        <Toaster/>
-      </ThemeProvider>
+      > */}
+        {children}    
+      {/* </ThemeProvider> */}
     </body>
   </html>
   );

@@ -1,10 +1,8 @@
 "use client";
 
-
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -13,16 +11,25 @@ import {
 import { RegisterSchema } from "@/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-
 import { z } from "zod";
-import { useFormStatus } from "react-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import CardWrapper from "../card-wrapper";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { useSearchParams, redirect } from "next/navigation";
+import axios from "axios";
 
 const RegisterForm = () => {
+  const searchParams = useSearchParams();
   const [loading, setLoading] = useState(false);
+  const role = searchParams.get("role");
+
+  useEffect(() => {
+    if (!role) {
+      redirect("/auth/chooserole");
+    }
+  }, [role]);
+
   const form = useForm({
     resolver: zodResolver(RegisterSchema),
     defaultValues: {
@@ -33,20 +40,47 @@ const RegisterForm = () => {
     },
   });
 
-  const onSubmit = (data: z.infer<typeof RegisterSchema>) => {
+  const onSubmit = async (data: z.infer<typeof RegisterSchema>) => {
     setLoading(true);
-    console.log(data);
+    try {
+      console.log("register: ", data);
+      const response = await axios.post(
+        `http://localhost:4500/${role}/signup`, // Update the endpoint based on your backend setup
+        {
+          username: data.name,
+          email: data.email,
+          password: data.password,
+        },
+        // {
+        //   withCredentials: true,
+        // }
+      );
+      if (response.data.message) {
+        alert(response.data.message);
+        window.location.href = `/auth/login?role=${role}`; // Redirect to login page with the role
+      } else {
+        alert(response.data.error);
+      }
+    } catch (error: any) {
+      if (error.response) {
+        alert(error.response.data.error);
+      } else {
+        alert('Server is down. Please try again later.');
+      }
+      console.error('Error:', error);
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const { pending } = useFormStatus();
   return (
     <CardWrapper
-      label="Create an account"
+      label={`Create an account as ${role}`}
       title="Register"
       backButtonHref="/auth/login"
       backButtonLabel="Already have an account? Login here."
-      forgotPasswordHref="/auth/forgotpassword" // Provide forgot password link
-    forgotPasswordLabel="Forgot password?" 
+      forgotPasswordHref="/auth/forgotpassword"
+      forgotPasswordLabel="Forgot password?"
     >
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
@@ -108,7 +142,7 @@ const RegisterForm = () => {
               )}
             />
           </div>
-          <Button type="submit" className="w-full" disabled={pending}>
+          <Button type="submit" className="w-full" disabled={loading}>
             {loading ? "Loading..." : "Register"}
           </Button>
         </form>

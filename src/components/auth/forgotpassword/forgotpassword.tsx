@@ -1,29 +1,36 @@
 "use client";
 
-
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { ForgotPasswordSchema} from "@/schema";
+import { ForgotPasswordSchema } from "@/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-
 import { z } from "zod";
-import { useFormStatus } from "react-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useSearchParams, redirect } from "next/navigation";
 import CardWrapper from "../card-wrapper";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-
+import axios from "axios";
+import { useFormStatus } from "react-dom";
 
 const ForgotPasswordForm = () => {
-    const [loading, setLoading] = useState(false);
+  const searchParams = useSearchParams();
+  const [loading, setLoading] = useState(false);
+  const role = searchParams.get("role");
+
+  useEffect(() => {
+    if (!role) {
+      redirect("/auth/chooserole");
+    }
+  }, [role]);
+
   const form = useForm({
     resolver: zodResolver(ForgotPasswordSchema),
     defaultValues: {
@@ -33,21 +40,49 @@ const ForgotPasswordForm = () => {
     },
   });
 
-  const onSubmit = (data: z.infer<typeof ForgotPasswordSchema>) => {
+  const onSubmit = async (data: z.infer<typeof ForgotPasswordSchema>) => {
     setLoading(true);
-    console.log(data);
+    try {
+      console.log("forgotPassword: ", data.email, data.NewPassword, data.confirmPassword, role);
+      const response = await axios.post(
+        `http://localhost:4500/${role}/forgotpassword`,
+        {
+          email: data.email,
+          NewPassword: data.NewPassword,
+          confirmPassword: data.confirmPassword,
+        },
+        {
+          withCredentials: true,
+        }
+      );
+      if (response.data.message) {
+        window.location.href = `/auth/login?role=${role}`;
+        console.log(response.data);
+        alert(response.data.message);
+      } else {
+        alert(response.data.error);
+      }
+    } catch (error: any) {
+      if (error.response) {
+        alert(error.response.data.error);
+      } else {
+        alert('Server is down. Please try again later.');
+      }
+      console.error('Error:', error);
+    } finally {
+      setLoading(false);
+    }
   };
-  
 
   const { pending } = useFormStatus();
   return (
     <CardWrapper
       label="Enter a new Password"
       title="Forgot password"
-      backButtonHref="/auth/register"
+      backButtonHref={`/auth/register?role=${role}`}
       backButtonLabel="Don't have an account? Register here."
-      forgotPasswordHref=""
-      forgotPasswordLabel=""
+      forgotPasswordHref={`/auth/login?role=${role}`}
+      forgotPasswordLabel="have an account? Login"
     >
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
@@ -74,7 +109,7 @@ const ForgotPasswordForm = () => {
               name="NewPassword"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Password</FormLabel>
+                  <FormLabel>New Password</FormLabel>
                   <FormControl>
                     <Input {...field} type="password" placeholder="******" />
                   </FormControl>
@@ -97,12 +132,12 @@ const ForgotPasswordForm = () => {
             />
           </div>
           <Button type="submit" className="w-full" disabled={pending}>
-            {loading ? "Loading..." : "Register"}
+            {loading ? "Loading..." : "Submit"}
           </Button>
         </form>
       </Form>
     </CardWrapper>
-  )
-}
+  );
+};
 
-export default ForgotPasswordForm
+export default ForgotPasswordForm;

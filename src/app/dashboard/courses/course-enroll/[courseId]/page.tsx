@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'next/navigation';
 import axios from 'axios';
-import { courses } from '../../course-constants';
+import { courses as staticCourse } from '../../course-constants';
 import CourseEnroll from '@/components/dashboard-components/courses-components/course-enroll/course-enroll';
 import { courses as staticCourses } from '@/app/dashboard/courses/course-constants';
 
