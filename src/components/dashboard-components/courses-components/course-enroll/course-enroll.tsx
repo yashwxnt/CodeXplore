@@ -250,7 +250,7 @@ const CourseEnroll: React.FC<CourseEnrollProps> = ({ course }) => {
             <ul className="list-disc pl-6">
               {chapter.topics.map((topic, i) => (
                 <li key={i} className="mb-2">
-                  <strong>{topic.topicName}:</strong> {topic.topicContent.join(", ")}
+                  <strong>{topic.topicName}</strong>
                 </li>
               ))}
             </ul>

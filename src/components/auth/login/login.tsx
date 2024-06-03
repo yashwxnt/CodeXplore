@@ -22,7 +22,15 @@ import axios from "axios";
 import useAuth from "@/hooks/useAuth";
 
 const LoginForm = () => {
+  const searchParams = useSearchParams();
   const [loading, setLoading] = useState(false);
+  const role = searchParams.get("role");
+
+  useEffect(() => {
+    if (!role) {
+      redirect("/auth/chooserole");
+    }
+  }, [role]);
 
   const form = useForm({
     resolver: zodResolver(LoginSchema),
@@ -64,10 +72,10 @@ const LoginForm = () => {
     <CardWrapper
       label="Login to your account"
       title="Login"
-      backButtonHref="/auth/register"
+      backButtonHref={`/auth/register?role=${role}`}
       backButtonLabel="Don't have an account? Register here."
-      forgotPasswordHref="/auth/forgotpassword" // Provide forgot password link
-      forgotPasswordLabel="Forgot password?" // Provide forgot password label
+      forgotPasswordHref={`/auth/forgotpassword?role=${role}`}
+      forgotPasswordLabel="Forgot password?"
     >
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">

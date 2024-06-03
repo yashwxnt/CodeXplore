@@ -33,12 +33,15 @@ const CardWrapper = ({
                 {children}
             </CardContent>
             <CardFooter>
-                <BackButton label={backButtonLabel} href={backButtonHref} />
-                <ForgotPassword label={forgotPasswordLabel} href={forgotPasswordHref} />
+                {backButtonHref && backButtonLabel && (
+                    <BackButton label={backButtonLabel} href={backButtonHref} />
+                )}
+                {forgotPasswordHref && forgotPasswordLabel && (
+                    <ForgotPassword label={forgotPasswordLabel} href={forgotPasswordHref} />
+                )}
             </CardFooter>
         </Card>
     );
 };
 
 export default CardWrapper;
-
