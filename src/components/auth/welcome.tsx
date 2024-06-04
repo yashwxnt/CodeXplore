@@ -7,7 +7,7 @@ import '../ui/TypeWriter.css';
 const Welcome = () => {
 
     const textReveal = "The ultimate gamified platform for coding and education! Dive into interactive challenges, explore coding puzzles, and unlock achievements as you enhance your programming skills. Whether you're a beginner or an experienced coder, CodeXplore offers a fun and engaging way to learn and grow.";
-    
+
     const [displayedText, setDisplayedText] = useState('');
 
     useEffect(() => {
