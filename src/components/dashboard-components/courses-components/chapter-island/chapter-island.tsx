@@ -17,12 +17,12 @@ interface ChapterIslandProps {
 const ChapterIsland: React.FC<ChapterIslandProps> = ({ course }) => {
   return (
 
-      <div className="absolute inset-0 w-full h-full bg-[url('/images/chapter-island.svg')] bg-no-repeat bg-cover" />
+    <div className="absolute inset-0 w-full h-full bg-[url('/images/chapter-island.svg')] bg-no-repeat bg-cover" />
 
 
-         
-   
-  
+
+
+
   );
 };
 

@@ -8,7 +8,7 @@ const LobbyPage = () => {
 
   if (!id) return <div>Loading...</div>;
 
-  return <Lobby lobbyId={id} user={user} />;
+  return <Lobby lobbyId={Array.isArray(id) ? id[0] : id} user={user} />;
 };
 
 export default LobbyPage;
