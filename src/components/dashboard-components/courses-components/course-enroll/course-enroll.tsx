@@ -21,12 +21,14 @@ import { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider } from '@/comp
 import { useToast } from '@/components/ui/use-toast';
 import { Button } from '@/components/ui/button';
 import { motion, useViewportScroll, useTransform } from "framer-motion";
+import Link from 'next/link';
 interface CourseEnrollProps {
   course: {
     courseName: string;
     description: string;
     courseImage: string;
     courseDuration: string;
+    courseId: string;
     courseCategory: string;
     difficulty: string;
     chapters: { chapterName: string; content: string; topics: { topicName: string; topicType: string; topicContent: string[] }[] }[];
@@ -45,6 +47,7 @@ const CourseEnroll: React.FC<CourseEnrollProps> = ({ course }) => {
     courseName,
     description,
     courseImage,
+    courseId,
     courseDuration,
     courseCategory,
     difficulty,
@@ -180,7 +183,17 @@ const CourseEnroll: React.FC<CourseEnrollProps> = ({ course }) => {
                   <>
                     <h2 className="text-xl font-brenet-regular mb-4 text-primary">Your Progress</h2>
                     <Progress />
-                    <Badge>Course Completed!</Badge>
+                    <Link href={`/dashboard/courses/chapter-island/${courseId}`} passHref>
+            <motion.div
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="mt-auto"
+            >
+              <Button className="text-lg font-semibold font-bequest text-primary-foreground bg-primary py-2 px-4 rounded hover:bg-primary-dark transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary self-stretch">
+                View Course
+              </Button>
+            </motion.div>
+          </Link>
                   </>
                 ) : (
                   <>

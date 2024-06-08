@@ -1,14 +1,11 @@
-import Lobby from '@/components/dashboard-components/contests/lobby/lobby';
-import { useRouter } from 'next/router';
+'use client';
 
-const LobbyPage = () => {
-  const router = useRouter();
-  const { id } = router.query;
-  const user = { _id: 'user1', username: 'User 1' }; // Mock user, replace with actual user data
+import StaticLobby from '@/components/dashboard-components/contests/lobby/lobby';
+import React from 'react';
 
-  if (!id) return <div>Loading...</div>;
 
-  return <Lobby lobbyId={id} user={user} />;
+const StaticLobbyPage = () => {
+  return <StaticLobby />;
 };
 
-export default LobbyPage;
+export default StaticLobbyPage;
