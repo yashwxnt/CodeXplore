@@ -48,7 +48,7 @@ const CourseContent = ({ chapterId, courseId }: { chapterId: any, courseId: any 
                                         <PaginationLink key={topic.topicName} className="p-4">
                                             {index}
                                         </PaginationLink>
-                                        
+
                                     </PaginationItem>
                                 ))}
                             </PaginationContent>

@@ -20,8 +20,12 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import axios from "axios";
 import useAuth from "@/hooks/useAuth";
+import userInfo from "@/hooks/userInfo";
 
 const LoginForm = () => {
+  const username = userInfo((state) => state.username);
+  const setusername = userInfo((state) => state.setusername);
+
   const searchParams = useSearchParams();
   const [loading, setLoading] = useState(false);
   const role = searchParams.get("role");
@@ -55,13 +59,16 @@ const LoginForm = () => {
         }
       );
       if (response.data.username) {
+        localStorage.setItem("username", response.data.username);
+        setusername(response.data.username);
+        console.log("username", username, response.data.username);
         window.location.href = '/dashboard';
         console.log(response.data);
       } else {
         alert(response.data.error);
       }
     } catch (error: any) {
-      alert(error.response.data.error);
+      alert(error.response?.data.error);
       console.error('Error:', error);
     } finally {
       setLoading(false);

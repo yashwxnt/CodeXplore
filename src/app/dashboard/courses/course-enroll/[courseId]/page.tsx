@@ -30,7 +30,12 @@ const CourseEnrollPage = () => {
     const fetchCourse = async () => {
       try {
         console.log(courseId);
-        const response = await axios.get(`http://localhost:4500/courses/getCourse/${courseId}`);
+        const response = await axios.get(`http://localhost:4500/courses/getCourse/${courseId}`,
+          {
+            withCredentials: true,
+          }
+        );
+        console.log(`getCourse/${courseId}: `,response.data);
         setCourse(response.data);
         setLoading(false);
       } catch (err) {

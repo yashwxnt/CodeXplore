@@ -22,6 +22,9 @@ import { useToast } from '@/components/ui/use-toast';
 import { Button } from '@/components/ui/button';
 import { motion, useViewportScroll, useTransform } from "framer-motion";
 import Link from 'next/link';
+import userInfo from '@/hooks/userInfo';
+import axios from 'axios';
+
 interface CourseEnrollProps {
   course: {
     courseName: string;
@@ -59,6 +62,7 @@ const CourseEnroll: React.FC<CourseEnrollProps> = ({ course }) => {
     media = [],
   } = course;
 
+  const username = userInfo((state) => state.username);
   const averageRating = courseReviews.reduce((acc, review) => acc + review.rating, 0) / courseReviews.length;
   const [openIndices, setOpenIndices] = useState<Set<number>>(new Set());
   const [isEnrolled, setIsEnrolled] = useState(false);
@@ -67,6 +71,7 @@ const CourseEnroll: React.FC<CourseEnrollProps> = ({ course }) => {
   const stickyPosition = useTransform(scrollY, [0, 100], ["relative", "fixed"]);
   const tabs = ['About', 'Curriculum', 'Reviews', 'FAQs'];
   const [activeTab, setActiveTab] = useState(tabs[0].toLowerCase());
+
   const toggleAccordion = (index: number) => {
     const newOpenIndices = new Set(openIndices); // Create a new set to avoid mutating state directly
     if (newOpenIndices.has(index)) {
@@ -76,6 +81,7 @@ const CourseEnroll: React.FC<CourseEnrollProps> = ({ course }) => {
     }
     setOpenIndices(newOpenIndices); // Update the state with the new set
   };
+
   const sectionRefs = useRef<{ [key: string]: HTMLDivElement | null }>({
     about: null,
     curriculum: null,
@@ -116,10 +122,42 @@ const CourseEnroll: React.FC<CourseEnrollProps> = ({ course }) => {
     };
   }, []);
 
-  const handleEnroll = () => {
-    setIsEnrolled(true);
-    toast({ title: "Enrolled", description: `You have successfully enrolled in ${courseName}!` });
+  const checkEnrollment = async () => {
+    try {
+      console.log("checkEnrollment ", { username, courseId });
+      const response = await axios.post('http://localhost:4500/developer/checkEnrollment', { username, courseId },
+        {
+          withCredentials: true,
+        }
+      );
+      setIsEnrolled(response.data.isEnrolled);
+    } catch (error) {
+      console.error('Error checking enrollment:', error);
+    }
   };
+
+  const handleEnroll = async () => {
+    try {
+      console.log("enrollCourse ", { username, courseId });
+      await axios.post('http://localhost:4500/developer/enrollCourse', { username, courseId },
+        {
+          withCredentials: true,
+        });
+      setIsEnrolled(true);
+      toast({ title: "Enrolled", description: `You have successfully enrolled in ${courseName}!` });
+    } catch (error) {
+      console.error('Error enrolling in course:', error);
+      toast({ title: "Error", description: "Failed to enroll in the course" });
+    }
+  };
+
+  useEffect(() => {
+    if (username) {
+      checkEnrollment();
+    }
+  }, [username]);
+
+  console.log("course", course, username);
 
   return (
     <TooltipProvider>
@@ -169,7 +207,6 @@ const CourseEnroll: React.FC<CourseEnrollProps> = ({ course }) => {
               </div>
             </CardContent>
             {/* Enrollment Section */}
-
             <motion.div
               className="lg:w-1/4 lg:sticky lg:top-20 right-0"
               style={{ position: stickyPosition }}
@@ -194,7 +231,6 @@ const CourseEnroll: React.FC<CourseEnrollProps> = ({ course }) => {
                           </Button>
                         </motion.div>
                       </Link>
-                      <Badge>Course Completed!</Badge>
                     </>
                   ) : (
                     <>
@@ -213,7 +249,6 @@ const CourseEnroll: React.FC<CourseEnrollProps> = ({ course }) => {
         </motion.div>
 
         {/* Tabs Navigation */}
-
         <motion.div className="top-0 lg:w-1/4 bg-background z-10 my-8" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.5 }}>
           <Tabs value={activeTab} onValueChange={handleScroll}>
             <TabsList className="flex border-b border-muted bg-background shadow-md">
@@ -230,7 +265,6 @@ const CourseEnroll: React.FC<CourseEnrollProps> = ({ course }) => {
           </Tabs>
         </motion.div>
 
-
         {/* About Section */}
         <motion.div id="about" ref={(el) => { sectionRefs.current.about = el; }} className="my-8 p-4 bg-secondary rounded-lg shadow" initial={{ y: 50 }} animate={{ y: 0 }} transition={{ delay: 0.6 }}>
           <h2 className="text-2xl font-brenet-regular mb-4 text-primary">About</h2>
@@ -240,9 +274,7 @@ const CourseEnroll: React.FC<CourseEnrollProps> = ({ course }) => {
         {/* Curriculum Section */}
         <motion.div
           id="curriculum"
-          ref={(el) => {
-            sectionRefs.current.curriculum = el;
-          }}
+          ref={(el) => { sectionRefs.current.curriculum = el; }}
           className="my-8 p-4 bg-background rounded-lg shadow"
           initial={{ y: 50 }}
           animate={{ y: 0 }}
@@ -255,11 +287,11 @@ const CourseEnroll: React.FC<CourseEnrollProps> = ({ course }) => {
                 <AccordionItem key={index} value={`chapter-${index}`} className="border-b">
                   <AccordionTrigger
                     className="flex justify-between w-full items-center font-brenet-regular p-4 bg-muted hover:bg-muted-foreground transition-colors"
-                    onClick={() => toggleAccordion(index)} // Toggle open state when clicked
+                    onClick={() => toggleAccordion(index)}
                   >
-                    {chapter.chapterName} <ChevronDown className={`w-4 h-4 ${openIndices.has(index) ? 'rotate-180' : ''}`} /> {/* Rotate the ChevronDown icon based on the open state */}
+                    {chapter.chapterName} <ChevronDown className={`w-4 h-4 ${openIndices.has(index) ? 'rotate-180' : ''}`} />
                   </AccordionTrigger>
-                  <AccordionContent className="p-4" style={{ display: openIndices.has(index) ? "block" : "none" }}> {/* Show content based on open state */}
+                  <AccordionContent className="p-4" style={{ display: openIndices.has(index) ? "block" : "none" }}>
                     <ul className="list-disc pl-6">
                       {chapter.topics.map((topic, i) => (
                         <li key={i} className="mb-2">
@@ -277,9 +309,7 @@ const CourseEnroll: React.FC<CourseEnrollProps> = ({ course }) => {
         {/* Reviews Section */}
         <motion.div
           id="reviews"
-          ref={(el) => {
-            sectionRefs.current.reviews = el;
-          }}
+          ref={(el) => { sectionRefs.current.reviews = el; }}
           className="my-8 p-4 bg-secondary rounded-lg shadow"
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
@@ -317,13 +347,10 @@ const CourseEnroll: React.FC<CourseEnrollProps> = ({ course }) => {
           </div>
         </motion.div>
 
-
-
+        {/* FAQs Section */}
         <motion.div
           id="faqs"
-          ref={(el) => {
-            sectionRefs.current.faqs = el;
-          }}
+          ref={(el) => { sectionRefs.current.faqs = el; }}
           className="my-8 p-4 bg-background rounded-lg shadow"
           initial={{ y: 50 }}
           animate={{ y: 0 }}
@@ -336,11 +363,10 @@ const CourseEnroll: React.FC<CourseEnrollProps> = ({ course }) => {
                 <AccordionItem key={index} value={`faq-${index}`} className="border-b">
                   <AccordionTrigger
                     className="flex justify-between font-bequest w-full items-center p-4 bg-muted hover:bg-muted-foreground transition-colors"
-                    onClick={() => toggleAccordion(index)} // Toggle open state when clicked
+                    onClick={() => toggleAccordion(index)}
                   >
-                    {faq.question} <ChevronDown className={`w-4 h-4 ${openIndices.has(index) ? 'rotate-180' : ''}`} /> {/* Rotate the ChevronDown icon based on the open state */}
+                    {faq.question} <ChevronDown className={`w-4 h-4 ${openIndices.has(index) ? 'rotate-180' : ''}`} />
                   </AccordionTrigger>
-                  {/* Handle open state based on current index */}
                   <AccordionContent className="p-4" style={{ display: openIndices.has(index) ? "block" : "none" }}>
                     <p className="font-inter">{faq.answer}</p>
                   </AccordionContent>
@@ -349,13 +375,8 @@ const CourseEnroll: React.FC<CourseEnrollProps> = ({ course }) => {
             </Accordion>
           </div>
         </motion.div>
-
-      </motion.div >
-    </TooltipProvider >
-
-
-
-
+      </motion.div>
+    </TooltipProvider>
   );
 };
 
