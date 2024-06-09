@@ -28,16 +28,16 @@ import axios from 'axios';
 interface CourseEnrollProps {
   course: {
     courseName: string;
+    courseId: string;
     description: string;
     courseImage: string;
     courseDuration: string;
-    courseId: string;
     courseCategory: string;
     difficulty: string;
     chapters: { chapterName: string; content: string; topics: { topicName: string; topicType: string; topicContent: string[] }[] }[];
     format: string;
     courseReviews: {
-      userAvatar: string | undefined; rating: number; comment: string 
+      userAvatar: string | undefined; rating: number; comment: string
     }[];
     certificates: boolean;
     faqs: { question: string; answer: string }[];
@@ -50,9 +50,9 @@ const CourseEnroll: React.FC<CourseEnrollProps> = ({ course }) => {
     courseName,
     description,
     courseImage,
-    courseId,
     courseDuration,
     courseCategory,
+    courseId,
     difficulty,
     chapters = [],
     format = '',
@@ -61,7 +61,7 @@ const CourseEnroll: React.FC<CourseEnrollProps> = ({ course }) => {
     faqs = [],
     media = [],
   } = course;
-  
+
   const username = userInfo((state) => state.username);
   const averageRating = courseReviews.reduce((acc, review) => acc + review.rating, 0) / courseReviews.length;
   const [openIndices, setOpenIndices] = useState<Set<number>>(new Set());
@@ -71,7 +71,7 @@ const CourseEnroll: React.FC<CourseEnrollProps> = ({ course }) => {
   const stickyPosition = useTransform(scrollY, [0, 100], ["relative", "fixed"]);
   const tabs = ['About', 'Curriculum', 'Reviews', 'FAQs'];
   const [activeTab, setActiveTab] = useState(tabs[0].toLowerCase());
-  
+
   const toggleAccordion = (index: number) => {
     const newOpenIndices = new Set(openIndices); // Create a new set to avoid mutating state directly
     if (newOpenIndices.has(index)) {
@@ -81,7 +81,7 @@ const CourseEnroll: React.FC<CourseEnrollProps> = ({ course }) => {
     }
     setOpenIndices(newOpenIndices); // Update the state with the new set
   };
-  
+
   const sectionRefs = useRef<{ [key: string]: HTMLDivElement | null }>({
     about: null,
     curriculum: null,
@@ -109,7 +109,7 @@ const CourseEnroll: React.FC<CourseEnrollProps> = ({ course }) => {
     };
 
     const observer = new IntersectionObserver(observerCallback, observerOptions);
- 
+
     const sections = Object.values(sectionRefs.current);
     sections.forEach(section => {
       if (section) observer.observe(section);
@@ -141,8 +141,8 @@ const CourseEnroll: React.FC<CourseEnrollProps> = ({ course }) => {
       console.log("enrollCourse ", { username, courseId });
       await axios.post('http://localhost:4500/developer/enrollCourse', { username, courseId },
         {
-        withCredentials: true,
-      });
+          withCredentials: true,
+        });
       setIsEnrolled(true);
       toast({ title: "Enrolled", description: `You have successfully enrolled in ${courseName}!` });
     } catch (error) {
@@ -256,9 +256,8 @@ const CourseEnroll: React.FC<CourseEnrollProps> = ({ course }) => {
                 <TabsTrigger
                   key={index}
                   value={tab.toLowerCase()}
-                  className={`py-2.5 px-4 text-sm font-bequest font-medium leading-5 transition-colors duration-150 ${
-                    activeTab === tab.toLowerCase() ? 'border-b-2 -mb-px border-primary text-primary bg-secondary text-white' : 'text-muted-foreground'
-                  }`}>
+                  className={`py-2.5 px-4 text-sm font-bequest font-medium leading-5 transition-colors duration-150 ${activeTab === tab.toLowerCase() ? 'border-b-2 -mb-px border-primary text-primary bg-secondary text-white' : 'text-muted-foreground'
+                    }`}>
                   {tab}
                 </TabsTrigger>
               ))}
@@ -330,7 +329,7 @@ const CourseEnroll: React.FC<CourseEnrollProps> = ({ course }) => {
                     <img src={review.userAvatar} alt="User Avatar" className="w-10 h-10 rounded-full mr-3" />
                   ) : (
                     <div className="w-10 h-10 bg-gray-300 rounded-full flex items-center justify-center text-gray-600 mr-3">
-                      No 
+                      No
                     </div>
                   )}
                   <div className="text-sm font-bold text-primary flex">

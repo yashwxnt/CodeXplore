@@ -51,7 +51,7 @@ const CourseList = () => {
 
     fetchCourses();
   }, []);
-  
+
 
   const filteredCourses = courses.filter(course => {
     const matchesCategory = selectedCategory === 'All' || course.courseCategory === selectedCategory;
@@ -112,11 +112,10 @@ const CourseList = () => {
               <TabsTrigger
                 key={label}
                 value={label}
-                className={`flex items-center px-5 py-2 mx-1 font-brenet-regular rounded-full transition ${
-                  selectedCategory === label
-                    ? 'bg-primary text-primary-foreground shadow-md'
-                    : 'bg-card text-card-foreground border border-border shadow-sm'
-                } hover:bg-primary hover:text-primary-foreground focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary`}
+                className={`flex items-center px-5 py-2 mx-1 font-brenet-regular rounded-full transition ${selectedCategory === label
+                  ? 'bg-primary text-primary-foreground shadow-md'
+                  : 'bg-card text-card-foreground border border-border shadow-sm'
+                  } hover:bg-primary hover:text-primary-foreground focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary`}
               >
                 {icon}
                 {label}
