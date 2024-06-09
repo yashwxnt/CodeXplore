@@ -1,9 +1,8 @@
-'use client';
+'use client'
 import React from 'react';
 import { useParams } from 'next/navigation';
-import { courses } from '@/app/courses/course-constants';
-import ChapterIsland from '@/components/courses-components/chapter-island/chapter-island';
-
+import { courses } from '../../course-constants';
+import ChapterIsland from '@/components/dashboard-components/courses-components/chapter-island/chapter-island';
 
 const ChapterIslandPage = () => {
   const params = useParams();

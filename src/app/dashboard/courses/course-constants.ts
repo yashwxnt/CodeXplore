@@ -3,7 +3,7 @@ export const courses = [
   {
     courseName: 'React for Beginners',
     description: 'Learn the basics of React and build your first application.',
-    courseImage: '',
+    courseImage: 'https://i0.wp.com/londonappdeveloper.com/wp-content/uploads/2017/09/Hello-React.JS-Absolute-Beginners-Guide-to-React.png?fit=277%2C223&ssl=1',
     courseId: 'react-for-beginners',
     courseDuration: '6 weeks',
     courseRating: 4.5,
