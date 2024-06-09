@@ -1,15 +1,16 @@
 "use client";
-import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Button } from '@/components/ui/button';
-import { Card } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import Compiler from '@/components/Editor';
-import { AiFillClockCircle, AiFillStar } from 'react-icons/ai';
-import { MdQuestionAnswer, MdCode, MdShortText } from 'react-icons/md';
+
+import React, { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { AiFillClockCircle } from "react-icons/ai";
+import { MdQuestionAnswer, MdCode, MdShortText } from "react-icons/md";
+import CodeEditor from "@/components/editor/CodeEditor";
 
 interface Question {
-  type: 'multiple-choice' | 'coding' | 'short-answer';
+  type: "multiple-choice" | "coding" | "short-answer";
   question: string;
   options?: string[];
   answer?: string;
@@ -18,15 +19,14 @@ interface Question {
 
 const ChapterQuiz = () => {
   const [currentQuestion, setCurrentQuestion] = useState(0);
-  const [code, setCode] = useState('');
   const [answers, setAnswers] = useState<(string | null)[]>(Array(3).fill(null));
   const [timeLeft, setTimeLeft] = useState(3600); // 1 hour timer
   const [markedForReview, setMarkedForReview] = useState<boolean[]>(Array(3).fill(false));
 
   const questions: Question[] = [
-    { type: 'multiple-choice', question: 'What is 2 + 2?', options: ['3', '4', '5'], answer: '4' },
-    { type: 'coding', question: 'Write a function to add two numbers.', language: 'javascript' },
-    { type: 'short-answer', question: 'What is the capital of France?', answer: 'Paris' }
+    { type: "multiple-choice", question: "What is 2 + 2?", options: ["3", "4", "5"], answer: "4" },
+    { type: "coding", question: "Write a function to add two numbers.", language: "javascript" },
+    { type: "short-answer", question: "What is the capital of France?", answer: "Paris" },
   ];
 
   useEffect(() => {
@@ -39,7 +39,7 @@ const ChapterQuiz = () => {
   const formatTime = (seconds: number) => {
     const minutes = Math.floor(seconds / 60);
     const secs = seconds % 60;
-    return `${minutes}:${secs < 10 ? '0' : ''}${secs}`;
+    return `${minutes}:${secs < 10 ? "0" : ""}${secs}`;
   };
 
   const nextQuestion = () => {
@@ -67,7 +67,7 @@ const ChapterQuiz = () => {
   };
 
   const calculateProgress = () => {
-    const answeredQuestions = answers.filter(answer => answer !== null).length;
+    const answeredQuestions = answers.filter((answer) => answer !== null).length;
     return (answeredQuestions / questions.length) * 100;
   };
 
@@ -80,7 +80,9 @@ const ChapterQuiz = () => {
             <AiFillClockCircle className="inline-block mr-2" />
             Time Left: {formatTime(timeLeft)}
           </div>
-          <Button className="bg-background font-brenet-regular text-primary" onClick={() => alert('Quiz Submitted!')}>Submit</Button>
+          <Button className="bg-background font-brenet-regular text-primary" onClick={() => alert("Quiz Submitted!")}>
+            Submit
+          </Button>
         </div>
       </header>
       <main className="mt-6 grid grid-cols-12 gap-6">
@@ -96,19 +98,20 @@ const ChapterQuiz = () => {
               >
                 <div>
                   <h2 className="text-xl font-brenet-regular font-semibold flex items-center">
-                    {questions[currentQuestion].type === 'multiple-choice' && <MdQuestionAnswer className="mr-2" />}
-                    {questions[currentQuestion].type === 'coding' && <MdCode className="mr-2" />}
-                    {questions[currentQuestion].type === 'short-answer' && <MdShortText className="mr-2" />}
-                    Q{currentQuestion + 1}: {questions[currentQuestion].type.replace('-', ' ').replace(/\b\w/g, char => char.toUpperCase())}
+                    {questions[currentQuestion].type === "multiple-choice" && <MdQuestionAnswer className="mr-2" />}
+                    {questions[currentQuestion].type === "coding" && <MdCode className="mr-2" />}
+                    {questions[currentQuestion].type === "short-answer" && <MdShortText className="mr-2" />}
+                    Q{currentQuestion + 1}: {questions[currentQuestion].type.replace("-", " ").replace(/\b\w/g, (char) => char.toUpperCase())}
                   </h2>
                   <p className="mt-4">{questions[currentQuestion].question}</p>
-                  {questions[currentQuestion].type === 'multiple-choice' && (
+                  {questions[currentQuestion].type === "multiple-choice" && (
                     <div className="mt-4 space-y-2">
                       {questions[currentQuestion].options?.map((option, index) => (
                         <button
                           key={index}
-                          className={`w-full py-2 px-4 rounded-lg text-left ${answers[currentQuestion] === option ? 'bg-primary' : 'bg-secondary'
-                            }`}
+                          className={`w-full py-2 px-4 rounded-lg text-left ${
+                            answers[currentQuestion] === option ? "bg-primary" : "bg-secondary"
+                          }`}
                           onClick={() => handleAnswerChange(option)}
                         >
                           {option}
@@ -116,33 +119,38 @@ const ChapterQuiz = () => {
                       ))}
                     </div>
                   )}
-                  {questions[currentQuestion].type === 'short-answer' && (
+                  {questions[currentQuestion].type === "short-answer" && (
                     <Input
                       className="mt-4"
                       placeholder="Your answer"
-                      value={answers[currentQuestion] || ''}
+                      value={answers[currentQuestion] || ""}
                       onChange={(e) => handleAnswerChange(e.target.value)}
                     />
                   )}
-                  {questions[currentQuestion].type === 'coding' && (
+                  {questions[currentQuestion].type === "coding" && (
                     <div className="mt-4">
-                      <Compiler
+                      {/* <Compiler
                         language={questions[currentQuestion].language || 'javascript'}
                         code={code}
                         setCode={setCode}
-                      />
+                      /> */}
+                      <CodeEditor />
                     </div>
                   )}
                 </div>
               </motion.div>
             </AnimatePresence>
             <div className="flex font-brenet-regular justify-between mt-4">
-              <Button className="bg-primary" onClick={prevQuestion} disabled={currentQuestion === 0}>Previous</Button>
+              <Button className="bg-primary" onClick={prevQuestion} disabled={currentQuestion === 0}>
+                Previous
+              </Button>
               <div className="flex space-x-4">
-                <Button className={`bg-${markedForReview[currentQuestion] ? 'orange' : 'primary'}`} onClick={markForReview}>
-                  {markedForReview[currentQuestion] ? 'Unmark Review' : 'Mark for Review'}
+                <Button className={`bg-${markedForReview[currentQuestion] ? "orange" : "primary"}`} onClick={markForReview}>
+                  {markedForReview[currentQuestion] ? "Unmark Review" : "Mark for Review"}
                 </Button>
-                <Button className="bg-primary" onClick={nextQuestion} disabled={currentQuestion === questions.length - 1}>Next</Button>
+                <Button className="bg-primary" onClick={nextQuestion} disabled={currentQuestion === questions.length - 1}>
+                  Next
+                </Button>
               </div>
             </div>
           </Card>
@@ -162,8 +170,9 @@ const ChapterQuiz = () => {
               {questions.map((_, index) => (
                 <div
                   key={index}
-                  className={`p-2 rounded-lg cursor-pointer text-center font-semibold ${answers[index] ? 'bg-green-500 text-white' : markedForReview[index] ? 'bg-orange-500 text-white' : currentQuestion === index ? 'bg-primary' : 'bg-gray-300 text-gray-700'
-                    }`}
+                  className={`p-2 rounded-lg cursor-pointer text-center font-semibold ${
+                    answers[index] ? "bg-green-500 text-white" : markedForReview[index] ? "bg-orange-500 text-white" : currentQuestion === index ? "bg-primary" : "bg-gray-300 text-gray-700"
+                  }`}
                   onClick={() => setCurrentQuestion(index)}
                 >
                   {index + 1}
@@ -178,7 +187,6 @@ const ChapterQuiz = () => {
                 <li>Submit quiz</li>
               </ul>
             </div>
-
           </Card>
         </div>
       </main>
