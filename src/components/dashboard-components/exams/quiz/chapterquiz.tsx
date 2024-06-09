@@ -73,7 +73,7 @@ const ChapterQuiz = () => {
 
   return (
     <div className="min-h-screen bg-background text-foreground">
-     <header className="flex justify-between items-center p-4 shadow-md rounded-lg bg-primary">
+      <header className="flex justify-between items-center p-4 shadow-md rounded-lg bg-primary">
         <h1 className="text-3xl font-brenet-regular font-bold">Chapter Quiz</h1>
         <div className="flex items-center space-x-4">
           <div className="text-lg font-brenet-outline text-background font-semibold">
@@ -107,9 +107,8 @@ const ChapterQuiz = () => {
                       {questions[currentQuestion].options?.map((option, index) => (
                         <button
                           key={index}
-                          className={`w-full py-2 px-4 rounded-lg text-left ${
-                            answers[currentQuestion] === option ? 'bg-primary' : 'bg-secondary'
-                          }`}
+                          className={`w-full py-2 px-4 rounded-lg text-left ${answers[currentQuestion] === option ? 'bg-primary' : 'bg-secondary'
+                            }`}
                           onClick={() => handleAnswerChange(option)}
                         >
                           {option}
@@ -163,9 +162,8 @@ const ChapterQuiz = () => {
               {questions.map((_, index) => (
                 <div
                   key={index}
-                  className={`p-2 rounded-lg cursor-pointer text-center font-semibold ${
-                    answers[index] ? 'bg-green-500 text-white' : markedForReview[index] ? 'bg-orange-500 text-white' : currentQuestion === index ? 'bg-primary' : 'bg-gray-300 text-gray-700'
-                  }`}
+                  className={`p-2 rounded-lg cursor-pointer text-center font-semibold ${answers[index] ? 'bg-green-500 text-white' : markedForReview[index] ? 'bg-orange-500 text-white' : currentQuestion === index ? 'bg-primary' : 'bg-gray-300 text-gray-700'
+                    }`}
                   onClick={() => setCurrentQuestion(index)}
                 >
                   {index + 1}
@@ -180,7 +178,7 @@ const ChapterQuiz = () => {
                 <li>Submit quiz</li>
               </ul>
             </div>
-           
+
           </Card>
         </div>
       </main>
