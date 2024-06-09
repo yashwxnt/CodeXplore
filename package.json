@@ -9,6 +9,9 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@chakra-ui/react": "^2.8.2",
+    "@emotion/react": "^11.11.4",
+    "@emotion/styled": "^11.11.5",
     "@hookform/resolvers": "^3.3.4",
     "@monaco-editor/react": "^4.6.0",
     "@next/font": "^14.2.3",
@@ -35,7 +38,7 @@
     "classnames": "^2.5.1",
     "clsx": "^2.1.1",
     "feather-icons-react": "^0.7.0",
-    "framer-motion": "^11.2.6",
+    "framer-motion": "^11.2.10",
     "lucide-react": "^0.378.0",
     "next": "14.2.3",
     "next-sanity": "^9.3.10",
