@@ -6,21 +6,9 @@ import { ResizablePanelGroup, ResizablePanel, ResizableHandle } from "@/componen
 import Compiler from "@/components/Editor";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import {
-  Drawer,
-  DrawerTrigger,
-  DrawerContent,
-  DrawerHeader,
-  DrawerTitle,
-  DrawerDescription,
-  DrawerFooter,
-  DrawerClose,
-} from "@/components/ui/drawer";
+import Chat from "./chatbox";
 
-interface ChatMessage {
-  sender: { username: string };
-  message: string;
-}
+
 
 interface Challenge {
   description: string;
@@ -36,7 +24,6 @@ const initialChallenge = {
 
 const StaticLobby = () => {
   const [message, setMessage] = useState("");
-  const [chatHistory, setChatHistory] = useState<ChatMessage[]>([]);
   const [challenge, setChallenge] = useState<Challenge | null>(initialChallenge);
   const [timer, setTimer] = useState(600); // 10 minutes timer
 
@@ -49,14 +36,6 @@ const StaticLobby = () => {
     return () => clearInterval(interval);
   }, []);
 
-  const handleSendMessage = () => {
-    const newMessage = {
-      sender: { username: "User 1" },
-      message,
-    };
-    setChatHistory((prevChatHistory) => [...prevChatHistory, newMessage]);
-    setMessage("");
-  };
 
   const formatTime = (seconds: number) => {
     const minutes = Math.floor(seconds / 60);
@@ -115,46 +94,7 @@ const StaticLobby = () => {
       <div className="mt-8">
         <h3 className="text-2xl font-semibold">Timer: {formatTime(timer)}</h3>
       </div>
-      <Drawer>
-        <DrawerTrigger>
-          <Button className="mt-8">Open Chat</Button>
-        </DrawerTrigger>
-        <DrawerContent
-          className="fixed bottom-0 right-0 w-80 max-w-full h-80 bg-gray-800 rounded-t-lg shadow-lg flex flex-col"
-          onMouseDown={(e) => e.stopPropagation()} // Prevent closing on click
-        >
-          <DrawerHeader>
-            <DrawerTitle>Chat</DrawerTitle>
-            <DrawerDescription>Discuss the challenge here</DrawerDescription>
-          </DrawerHeader>
-          <div className="p-4 flex-grow overflow-y-auto">
-            {chatHistory.length > 0 ? (
-              chatHistory.map((msg, idx) => (
-                <div key={idx} className="mb-2">
-                  <strong>{msg.sender.username}:</strong> {msg.message}
-                </div>
-              ))
-            ) : (
-              <div>No messages yet</div>
-            )}
-          </div>
-          <div className="p-4 flex space-x-2">
-            <Input
-              className="flex-grow"
-              type="text"
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
-              placeholder="Type your message"
-            />
-            <Button onClick={handleSendMessage}>Send</Button>
-          </div>
-          <DrawerFooter>
-            <DrawerClose>
-              <Button variant="outline">Close</Button>
-            </DrawerClose>
-          </DrawerFooter>
-        </DrawerContent>
-      </Drawer>
+     <Chat/>
     </div>
   );
 };
