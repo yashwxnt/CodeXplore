@@ -1,11 +1,10 @@
-'use client';
 import React, { useState } from 'react';
 import { Dialog, DialogContent, DialogTitle, DialogTrigger, DialogClose } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 
 interface JoinLobbyFormProps {
-  onJoinLobby: () => void;
+  onJoinLobby: (code: string) => void;
 }
 
 const JoinLobbyForm: React.FC<JoinLobbyFormProps> = ({ onJoinLobby }) => {
@@ -14,10 +13,8 @@ const JoinLobbyForm: React.FC<JoinLobbyFormProps> = ({ onJoinLobby }) => {
 
   const handleJoinLobby = (e: React.FormEvent) => {
     e.preventDefault();
-    // Logic to join lobby with the entered code
-    console.log('Joining lobby with code:', code);
+    onJoinLobby(code);
     setIsDialogOpen(false);
-    onJoinLobby(); // Call the onJoinLobby function to transition to StaticLobby
   };
 
   return (

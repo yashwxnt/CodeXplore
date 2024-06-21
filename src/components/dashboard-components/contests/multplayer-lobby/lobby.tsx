@@ -94,7 +94,7 @@ const StaticLobby = () => {
       <div className="mt-8">
         <h3 className="text-2xl font-semibold">Timer: {formatTime(timer)}</h3>
       </div>
-     <Chat/>
+     <Chat roomName={""}/>
     </div>
   );
 };

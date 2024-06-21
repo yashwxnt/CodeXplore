@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 
 interface LobbyFormProps {
-  onLobbyCreated: (code: string, timeLimit: number) => void;
+  onLobbyCreated: (code: string) => void;
 }
 
 const LobbyForm: React.FC<LobbyFormProps> = ({ onLobbyCreated }) => {
@@ -12,9 +12,8 @@ const LobbyForm: React.FC<LobbyFormProps> = ({ onLobbyCreated }) => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Assuming you generate a lobby code or get it from an API
     const generatedCode = '123ABC'; // Replace with actual code generation logic
-    onLobbyCreated(generatedCode, timeLimit);
+    onLobbyCreated(generatedCode);
   };
 
   return (

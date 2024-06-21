@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import LobbyForm from './LobbyForm';
 import JoinLobbyForm from './JoinLobbyForm';
 import StaticLobby from './lobby';
+
 import { Dialog, DialogContent, DialogTitle, DialogTrigger, DialogClose } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { 
@@ -15,6 +16,7 @@ import {
   AlertDialogAction 
 } from '@/components/ui/alert-dialog';
 import { ClipboardCopy } from 'lucide-react';
+import Chat from './chatbox';
 
 const LobbyCreationPage: React.FC = () => {
   const [isLobbyCreated, setIsLobbyCreated] = useState(false);
@@ -26,6 +28,7 @@ const LobbyCreationPage: React.FC = () => {
     setIsLobbyCreated(true);
     setLobbyCode(code);
     setIsDialogOpen(false); // Close the form dialog
+    setHasJoinedLobby(true); // Directly join the lobby after creation
   };
 
   const handleCopyToClipboard = () => {
@@ -34,12 +37,13 @@ const LobbyCreationPage: React.FC = () => {
       .catch((err) => alert('Failed to copy lobby code: '));
   };
 
-  const handleJoinLobby = () => {
+  const handleJoinLobby = (code: string) => {
+    setLobbyCode(code);
     setHasJoinedLobby(true);
   };
 
   if (hasJoinedLobby) {
-    return <StaticLobby />;
+    return <Chat roomName={lobbyCode} />;
   }
 
   return (
