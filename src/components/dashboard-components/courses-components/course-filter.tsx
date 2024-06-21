@@ -1,6 +1,4 @@
-// src/components/courses-components/course-filter.tsx
 import React, { useState } from 'react';
-import { Check } from 'lucide-react';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
 import { motion } from 'framer-motion';
@@ -68,7 +66,7 @@ const CourseFilter: React.FC<CourseFilterProps> = ({ onFilterChange }) => {
                 <label key={tag} className="inline-flex items-center mb-2">
                   <Checkbox
                     checked={tags.includes(tag)}
-                    onChange={() => handleTagChange(tag)}
+                    onCheckedChange={() => handleTagChange(tag)}
                     className="mr-2"
                   />
                   <span>{tag}</span>

@@ -53,14 +53,14 @@ function BreadcrumbNav({ courseId }: { courseId: string }) {
       <BreadcrumbList>
         <BreadcrumbItem>
           <BreadcrumbLink className="font-brenet-regular text-primary" href="/dashboard">Dashboard</BreadcrumbLink>
-          <BreadcrumbSeparator />
         </BreadcrumbItem>
+        <BreadcrumbSeparator />
         <BreadcrumbItem>
-          <BreadcrumbLink className="font-brenet-regular text-primary"  href="/dashboard/courses">Courses</BreadcrumbLink>
-          <BreadcrumbSeparator />
+          <BreadcrumbLink className="font-brenet-regular text-primary" href="/dashboard/courses">Courses</BreadcrumbLink>
         </BreadcrumbItem>
+        <BreadcrumbSeparator />
         <BreadcrumbItem>
-          <BreadcrumbLink className="font-brenet-regular text-primary"  href={`/dashboard/courses/course-enroll/${courseId}`}>Course Enroll</BreadcrumbLink>
+          <BreadcrumbLink className="font-brenet-regular text-primary" href={`/dashboard/courses/course-enroll/${courseId}`}>Course Enroll</BreadcrumbLink>
         </BreadcrumbItem>
       </BreadcrumbList>
     </Breadcrumb>

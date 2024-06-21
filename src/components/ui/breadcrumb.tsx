@@ -76,17 +76,18 @@ const BreadcrumbSeparator = ({
   children,
   className,
   ...props
-}: React.ComponentProps<"li">) => (
-  <li
+}: React.ComponentProps<"span">) => (
+  <span
     role="presentation"
     aria-hidden="true"
     className={cn("[&>svg]:size-3.5", className)}
     {...props}
   >
     {children ?? <ChevronRight />}
-  </li>
-)
-BreadcrumbSeparator.displayName = "BreadcrumbSeparator"
+  </span>
+);
+BreadcrumbSeparator.displayName = "BreadcrumbSeparator";
+
 
 const BreadcrumbEllipsis = ({
   className,

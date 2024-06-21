@@ -1,49 +1,61 @@
 import React, { useState } from 'react';
-import { Dialog, DialogContent, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
-import { useForm } from 'react-hook-form';
-import { Label } from '@/components/ui/label';
 
-interface FormData {
-  code: string;
+interface LobbyFormProps {
+  onLobbyCreated: (code: string, timeLimit: number) => void;
 }
 
-const JoinLobbyForm = () => {
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const { register, handleSubmit } = useForm<FormData>();
+const LobbyForm: React.FC<LobbyFormProps> = ({ onLobbyCreated }) => {
+  const [difficulty, setDifficulty] = useState('');
+  const [members, setMembers] = useState(1);
+  const [timeLimit, setTimeLimit] = useState(10); // Default time limit in minutes
 
-  const handleJoinLobby = (formData: FormData) => {
-    console.log('Joining lobby with code:', formData.code);
-    setIsDialogOpen(false);
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    // Assuming you generate a lobby code or get it from an API
+    const generatedCode = '123ABC'; // Replace with actual code generation logic
+    onLobbyCreated(generatedCode, timeLimit);
   };
 
   return (
-    <>
-      <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-        <DialogTrigger asChild>
-          <Button>Join Lobby</Button>
-        </DialogTrigger>
-        <DialogContent>
-          <DialogTitle>Join a Lobby</DialogTitle>
-          <form onSubmit={handleSubmit(handleJoinLobby)}>
-            <div className="space-y-4">
-              <div>
-                <Label htmlFor="code">Lobby Code</Label>
-                <input
-                  id="code"
-                  {...register('code')}
-                  className="w-full mt-1"
-                />
-              </div>
-              <Button type="submit" className="w-full mt-4">
-                Join Lobby
-              </Button>
-            </div>
-          </form>
-        </DialogContent>
-      </Dialog>
-    </>
+    <form onSubmit={handleSubmit}>
+      <div className="mb-4">
+        <label className="block text-sm font-medium text-gray-700">Difficulty Level</label>
+        <select
+          value={difficulty}
+          onChange={(e) => setDifficulty(e.target.value)}
+          className="mt-1 block w-full p-2 border rounded-md bg-background text-foreground"
+        >
+          <option value="">Select difficulty</option>
+          <option value="easy">Easy</option>
+          <option value="medium">Medium</option>
+          <option value="hard">Hard</option>
+        </select>
+      </div>
+      <div className="mb-4">
+        <label className="block text-sm font-medium text-gray-700">Number of Members</label>
+        <input
+          type="number"
+          value={members}
+          onChange={(e) => setMembers(Number(e.target.value))}
+          min="1"
+          max="4"
+          className="mt-1 block w-full p-2 border rounded-md bg-background text-foreground"
+        />
+      </div>
+      <div className="mb-4">
+        <label className="block text-sm font-medium text-gray-700">Time Limit (minutes)</label>
+        <input
+          type="number"
+          value={timeLimit}
+          onChange={(e) => setTimeLimit(Number(e.target.value))}
+          min="1"
+          className="mt-1 block w-full p-2 border rounded-md bg-background text-foreground"
+        />
+      </div>
+      <Button type="submit">Create Lobby</Button>
+    </form>
   );
 };
 
-export default JoinLobbyForm;
+export default LobbyForm;
