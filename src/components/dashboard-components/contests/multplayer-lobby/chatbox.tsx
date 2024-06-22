@@ -61,18 +61,18 @@ const Chat: React.FC<ChatProps> = ({ roomName }) => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 text-black p-4">
-      <Card className="w-full max-w-2xl">
+
+      <Card className="w-full max-w-xl">
         <CardHeader>
           <CardTitle>Lobby Chatbox</CardTitle>
           {joinedRoom && (
-            <div className="text-sm text-gray-500">Room: {joinedRoom}</div>
+            <div className="text-sm text-gray-900">Room: {joinedRoom}</div>
           )}
         </CardHeader>
         <CardContent className="space-y-4">
           <Separator />
 
-          <ScrollArea className="h-64 overflow-y-auto p-4 rounded-lg bg-gray-50">
+          <ScrollArea className="h-64 overflow-y-auto p-4 rounded-lg bg-gray-800">
             {messages.length > 0 ? (
               messages.map((msg, index) => (
                 <div key={index} className="flex items-center space-x-2 mb-2">
@@ -87,22 +87,26 @@ const Chat: React.FC<ChatProps> = ({ roomName }) => {
                 </div>
               ))
             ) : (
-              <div className="text-gray-500">No messages yet</div>
+              <div className="text-center text-gray-400">No messages yet</div>
             )}
           </ScrollArea>
+
         </CardContent>
-        <CardFooter className="flex space-x-2">
-          <Input 
-            type="text" 
+        <CardFooter className="flex items-center space-x-2">
+          <Input
+            type="text"
             value={message}
             onChange={(e) => setMessage(e.target.value)}
-            placeholder="Type your message"
-            className="flex-1"
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') sendMessage();
+            }}
+            placeholder="Type a message"
+            className="flex-grow"
           />
           <Button onClick={sendMessage}>Send</Button>
         </CardFooter>
       </Card>
-    </div>
+
   );
 };
 

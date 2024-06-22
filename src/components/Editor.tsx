@@ -1,4 +1,3 @@
-// components/Compiler.tsx
 import React, { useState, useEffect } from 'react';
 import { Editor, loader } from '@monaco-editor/react';
 import axios from 'axios';
