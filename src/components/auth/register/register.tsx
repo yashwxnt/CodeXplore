@@ -58,6 +58,11 @@ const RegisterForm = () => {
     },
   });
 
+  useEffect(() => {
+    verifyOtpForm.reset({ email });
+    registerForm.reset({ email });
+  }, [email, verifyOtpForm, registerForm]);
+
   const onRequestOtp = async (data: z.infer<typeof RequestOtpSchema>) => {
     setLoading(true);
     try {
