@@ -18,6 +18,7 @@ import {
 } from '@/components/ui/pagination';
 import { motion } from 'framer-motion';
 import { useViewportScroll, useTransform } from 'framer-motion';
+import userInfo from "@/hooks/userInfo";
 
 
 axios.defaults.withCredentials = true;
@@ -30,6 +31,8 @@ const categories = [
 ];
 
 const EnrolledCourseList = () => {
+  const username = userInfo((state) => state.username);
+
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [filters, setFilters] = useState<{ rating: number; duration: string; tags: string[] }>({ rating: 0, duration: '', tags: [] });
   const [searchTerm, setSearchTerm] = useState('');
@@ -40,7 +43,9 @@ const EnrolledCourseList = () => {
   useEffect(() => {
     const fetchCourses = async () => {
       try {
-        const response = await axios.get('http://localhost:4500/courses/getCourses');
+        const response = await axios.get(`http://localhost:4500/developer/${username}/enrolledCourses`, {
+          withCredentials: true,
+        });
         setCourses(response.data);
         console.log("fetched courses: ", response.data);
       } catch (error) {
