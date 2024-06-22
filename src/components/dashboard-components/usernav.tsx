@@ -10,10 +10,10 @@ export function UserNav() {
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
                 <Button variant="ghost" className="relative h-8 w-8 rounded-full">
-                    <Avatar className="h-10 w-10">
-                        <AvatarImage src="/avatars/02.png" alt="" />
-                        <AvatarFallback>SR</AvatarFallback>
-                    </Avatar>
+                <Avatar>
+        <AvatarImage src="/path/to/user-avatar.jpg" alt="User Avatar" />
+        <AvatarFallback>U</AvatarFallback>
+      </Avatar>
                 </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent className="w-56 z-[99998]">
