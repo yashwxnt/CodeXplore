@@ -61,12 +61,12 @@ const Chat: React.FC<ChatProps> = ({ roomName }) => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center bg-gray-700 text-white p-4">
-      <Card className="w-full max-w-2xl">
+
+      <Card className="w-full max-w-xl">
         <CardHeader>
           <CardTitle>Lobby Chatbox</CardTitle>
           {joinedRoom && (
-            <div className="text-sm text-gray-500">Room: {joinedRoom}</div>
+            <div className="text-sm text-gray-900">Room: {joinedRoom}</div>
           )}
         </CardHeader>
         <CardContent className="space-y-4">
@@ -106,7 +106,7 @@ const Chat: React.FC<ChatProps> = ({ roomName }) => {
           <Button onClick={sendMessage}>Send</Button>
         </CardFooter>
       </Card>
-    </div>
+
   );
 };
 

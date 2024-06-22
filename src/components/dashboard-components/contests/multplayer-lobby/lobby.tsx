@@ -127,9 +127,8 @@ const StaticLobby: React.FC<StaticLobbyProps> = ({ roomName }) => {
           {isChatOpen ? 'Close Chat' : 'Open Chat'}
         </Button>
         {isChatOpen && (
-          <Card className="bg-gray-700 text-white rounded-lg shadow-lg">
             <Chat roomName={roomName} />
-          </Card>
+      
         )}
       </motion.div>
     </div>
