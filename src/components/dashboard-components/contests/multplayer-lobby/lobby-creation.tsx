@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import LobbyForm from './LobbyForm';
 import JoinLobbyForm from './JoinLobbyForm';
 import StaticLobby from './lobby';
+import Chat from './chatbox';
 
 import { Dialog, DialogContent, DialogTitle, DialogTrigger, DialogClose } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
@@ -16,7 +17,6 @@ import {
   AlertDialogAction 
 } from '@/components/ui/alert-dialog';
 import { ClipboardCopy } from 'lucide-react';
-import Chat from './chatbox';
 
 const LobbyCreationPage: React.FC = () => {
   const [isLobbyCreated, setIsLobbyCreated] = useState(false);
@@ -43,7 +43,7 @@ const LobbyCreationPage: React.FC = () => {
   };
 
   if (hasJoinedLobby) {
-    return <Chat roomName={lobbyCode} />;
+    return <StaticLobby roomName={lobbyCode} />;
   }
 
   return (
