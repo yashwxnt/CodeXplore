@@ -3,10 +3,12 @@ import axios from 'axios';
 import { useParams } from 'next/navigation';
 import { courses as staticCourses } from '@/app/dashboard/courses/course-constants';
 import { TabsList, TabsTrigger, Tabs, TabsContent } from '@/components/ui/tabs';
-import { Pagination, PaginationContent, PaginationItem, PaginationLink } from '@/components/ui/pagination';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import ChapterQuiz from '@/components/dashboard-components/exams/quiz/chapterquiz';
+import Compiler from '@/components/Editor';
+import topicContent from './topiccontent';
+import HTMLFlipBook from 'react-pageflip';
 
 const CourseContent = ({ chapterId, courseId }: { chapterId: any, courseId: any }) => {
   const params = useParams();
@@ -17,8 +19,8 @@ const CourseContent = ({ chapterId, courseId }: { chapterId: any, courseId: any 
   const [course, setCourse] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [code, setCode] = useState(topicContent.interactiveElements.codingExercise);
 
-  // Function to set the course data when the backend is not available
   const setStaticCourse = (courseId: string) => {
     const staticCourse = staticCourses.find(course => course.courseId === courseId);
     if (staticCourse) {
@@ -33,28 +35,18 @@ const CourseContent = ({ chapterId, courseId }: { chapterId: any, courseId: any 
   useEffect(() => {
     const fetchCourse = async () => {
       try {
-        console.log(courseParamId);
         const response = await axios.get(`http://localhost:4500/courses/getCourse/${courseParamId}`, {
           withCredentials: true,
         });
-        console.log(`getCourse/${courseParamId}: `, response.data);
         setCourse(response.data);
         setLoading(false);
       } catch (err) {
-        // If backend is not available, set the static course
         setStaticCourse(courseParamId);
       }
     };
 
     fetchCourse();
   }, [courseParamId]);
-
-  const paginate = (index: number) => {
-    if (course) {
-      console.log(index, Object(course).chapters[chapterId].topics.length);
-      setCurrentPage(index);
-    }
-  };
 
   const handleQuiz = () => {
     setQuiz(true);
@@ -67,6 +59,93 @@ const CourseContent = ({ chapterId, courseId }: { chapterId: any, courseId: any 
   if (error || !course) {
     return <div>{error || 'Course not found'}</div>;
   }
+
+  const renderTopicContent = (content: any) => (
+    <HTMLFlipBook 
+      width={300} 
+      height={500} 
+      className="page-flip-book" 
+      style={{ margin: '0 auto' }} 
+      startPage={0} 
+      size="fixed" 
+      minWidth={315} 
+      maxWidth={1000} 
+      minHeight={420} 
+      maxHeight={1350} 
+      maxShadowOpacity={0.5}
+    >
+      <div className="p-4 font-comic">
+        <div className="mb-6">
+          <h2 className="text-4xl font-bold text-blue-800">Story:</h2>
+          <p className="text-xl mt-2 text-gray-800">{content.story}</p>
+        </div>
+        <div className="mb-6">
+          <h3 className="text-2xl font-bold text-blue-600">Introduction:</h3>
+          <p className="text-xl mt-2 text-gray-800">{content.introduction}</p>
+        </div>
+        <div className="mb-6">
+          <h3 className="text-2xl font-bold text-blue-600">Main Story:</h3>
+          <p className="text-xl mt-2 text-gray-800">{content.mainStory}</p>
+        </div>
+      </div>
+      <div className="p-4 font-comic">
+        <div className="mb-6">
+          <h3 className="text-2xl font-bold text-blue-600">Interactive Elements:</h3>
+          <div className="flex items-center mb-4">
+            <span className="text-2xl mr-2">💬</span>
+            <span className="text-xl text-gray-800"><strong>Question:</strong> {content.interactiveElements.question}</span>
+          </div>
+          <div className="flex items-center mb-4">
+            <span className="text-2xl mr-2">💻</span>
+            <div className="text-xl text-gray-800">
+              <strong>Coding Exercise:</strong>
+              <Compiler language="html" code={code} setCode={setCode} />
+            </div>
+          </div>
+          <div className="flex items-center mb-4">
+            <span className="text-2xl mr-2">🔍</span>
+            <div className="text-xl text-gray-800">
+              <strong>Decision Point:</strong> {content.interactiveElements.decisionPoint}
+              <div className="flex gap-2 mt-2">
+                <Button className="bg-blue-800 text-white py-2 px-4 rounded">Hobby</Button>
+                <Button className="bg-blue-800 text-white py-2 px-4 rounded">School Project</Button>
+              </div>
+            </div>
+          </div>
+          <div className="flex items-center mb-4">
+            <span className="text-2xl mr-2">🐞</span>
+            <div className="text-xl text-gray-800">
+              <strong>Debugging Scenario:</strong>
+              <div className="flex flex-col mt-2">
+                <pre className="bg-gray-100 p-2 rounded mt-2">&lt;h1Hello, world!&lt;/h1&gt;</pre>
+                <Compiler language="html" code="<html><body><h1>Hello, world!</h1></body></html>" setCode={setCode} />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="p-4 font-comic">
+        <div className="mb-6">
+          <h3 className="text-2xl font-bold text-blue-600">Conclusion:</h3>
+          <p className="text-xl mt-2 text-gray-800">{content.conclusion}</p>
+        </div>
+        <div className="mb-6">
+          <h3 className="text-2xl font-bold text-blue-600">What did you learn?</h3>
+          <ul className="list-disc list-inside mt-2 text-gray-800">
+            {content.whatDidYouLearn.map((item: string, index: number) => <li key={index}>{item}</li>)}
+          </ul>
+        </div>
+        <div className="mb-6">
+          <h3 className="text-2xl font-bold text-blue-600">Challenge:</h3>
+          <p className="text-xl mt-2 text-gray-800">{content.challenge}</p>
+        </div>
+        <div className="mb-6">
+          <h3 className="text-2xl font-bold text-blue-600">Next Step:</h3>
+          <p className="text-xl mt-2 text-gray-800">{content.nextStep}</p>
+        </div>
+      </div>
+    </HTMLFlipBook>
+  );
 
   return (
     <div className="max-h-full h-full w-full">
@@ -88,28 +167,30 @@ const CourseContent = ({ chapterId, courseId }: { chapterId: any, courseId: any 
                   <CardTitle>{chapter.topics[currentPage].topicName}</CardTitle>
                 </CardHeader>
                 <CardContent className="bg-background h-[57vh] overflow-auto text-secondary-foreground">
-                  {Object(chapter.topics)[currentPage] ? Object(chapter.topics)[currentPage]['topicContent'] : 'No content'}
+                  {renderTopicContent(topicContent)}
                 </CardContent>
               </Card>
-              <div className="flex justify-between">
-                <Pagination className="mx-[-10%] mt-2 text-secondary-foreground w-2/6 flex justify-center">
-                  <PaginationContent className="flex space-x-2">
-                    {chapter.topics.map((topic: any, index: number) => (
-                      <PaginationItem
-                        onClick={() => { paginate(index) }}
-                        key={topic.topicName}
-                      >
-                        <PaginationLink
-                          key={topic.topicName}
-                          className={`p-4 rounded-full cursor-pointer ${currentPage === index ? 'bg-primary text-transparent' : 'bg-secondary text-transparent'} hover:bg-primary hover:text-white`}
-                        >
-                          {index + 1}
-                        </PaginationLink>
-                      </PaginationItem>
-                    ))}
-                  </PaginationContent>
-                </Pagination>
-                {currentPage === chapter.topics.length - 1 && <Button className="mt-2 mr-3" onClick={handleQuiz}>Take Quiz</Button>}
+              <div className="flex justify-between mt-4">
+                {currentPage > 0 && (
+                  <Button
+                    className="bg-blue-800 text-white py-2 px-4 rounded"
+                    onClick={() => setCurrentPage(currentPage - 1)}
+                  >
+                    Previous Topic
+                  </Button>
+                )}
+                {currentPage < chapter.topics.length - 1 ? (
+                  <Button
+                    className="bg-blue-800 text-white py-2 px-4 rounded"
+                    onClick={() => setCurrentPage(currentPage + 1)}
+                  >
+                    Next Topic
+                  </Button>
+                ) : (
+                  <Button className="bg-blue-800 text-white py-2 px-4 rounded" onClick={handleQuiz}>
+                    Take Quiz
+                  </Button>
+                )}
               </div>
             </TabsContent>
           ))
