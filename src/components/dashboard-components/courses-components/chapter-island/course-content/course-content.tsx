@@ -154,7 +154,7 @@ const CourseContent = ({ chapterId, courseId }: { chapterId: string; courseId: s
       {contentStage === 'story' && (
         <>
           <div className="mb-8 border-b-2 border-border pb-4">
-            <h2 className="text-4xl font-bold text-primary font-brenet-outline">The Web Wizard's Apprentice</h2>
+            <h2 className="text-4xl font-bold text-primary font-brenet-outline">The Web Wizard&apos;s Apprentice</h2>
             <p className="text-xl mt-4 italic font-bequest">{content.story}</p>
           </div>
           
@@ -220,7 +220,7 @@ const CourseContent = ({ chapterId, courseId }: { chapterId: string; courseId: s
         <>
           <div className="mb-8">
             <h3 className="text-3xl font-bold text-destructive font-brenet-outline flex items-center">
-              <span className="mr-2">🏆</span> The Journey's End
+              <span className="mr-2">🏆</span> The Journey&apos;s End
             </h3>
             <p className="text-lg mt-4 leading-relaxed">{content.conclusion}</p>
           </div>

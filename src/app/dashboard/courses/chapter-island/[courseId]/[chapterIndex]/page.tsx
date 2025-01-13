@@ -8,7 +8,7 @@ const chapterPage = () => {
     const courseId = params.courseId;
 
     
-    return <CourseContent chapterId={chapterIndex} courseId={courseId}/>
+    return <CourseContent chapterId={chapterIndex as string} courseId={courseId as string}/>
 }
 
 export default chapterPage
