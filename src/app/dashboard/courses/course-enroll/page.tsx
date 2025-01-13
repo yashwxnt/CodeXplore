@@ -1,3 +1,4 @@
+"use client";
 // src/app/courses/course-enroll/page.tsx
 import React from 'react';
 import { useRouter } from 'next/router';

@@ -48,7 +48,7 @@
     "feather-icons-react": "^0.7.0",
     "framer-motion": "^11.2.10",
     "lucide-react": "^0.378.0",
-    "next": "14.2.3",
+    "next": "^14.2.23",
     "next-auth": "^4.24.7",
     "next-sanity": "^9.3.10",
     "next-themes": "^0.3.0",
