@@ -5,7 +5,7 @@ import React from 'react';
 
 
 const StaticLobbyPage = () => {
-  return <StaticLobby />;
+  return <StaticLobby roomName={''}  />;
 };
 
 export default StaticLobbyPage;
